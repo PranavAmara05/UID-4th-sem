@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KrishiSetu</title>
+    <link rel="stylesheet" href="style.css">
     <style>
         /* Global Styles */
         * {
@@ -26,6 +27,14 @@
             background-color: #f5f5f5;
             color: var(--text-color);
             line-height: 1.6;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
         }
 
         .container {
@@ -178,11 +187,12 @@
             right: 0;
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
             z-index: 10;
+            flex-direction: row;
         }
 
         .role-card:hover .role-actions {
@@ -192,27 +202,29 @@
         }
 
         .role-button {
-            background-color: var(--primary-color);
+            background-color: var(--primary-color); /* Green color for login button */
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 8px 14px;
             border-radius: 4px;
             cursor: pointer;
             font-weight: 600;
             transition: background-color 0.3s ease;
+            font-size: 0.9rem;
+            white-space: nowrap;
         }
 
         .role-button.signup {
-            background-color: var(--accent-color);
-            color: var(--dark-color);
+            background-color: var(--primary-color); /* Green color for signup button */
+            color: white;
         }
 
         .role-button:hover {
-            background-color: var(--secondary-color);
+            background-color: var(--secondary-color); /* Darker green on hover */
         }
 
         .role-button.signup:hover {
-            background-color: #e0a800;
+            background-color: var(--secondary-color); /* Darker green on hover for signup */
         }
 
         .role-icon {
@@ -230,24 +242,6 @@
             font-size: 0.9rem;
             margin-bottom: 0;
             color: var(--text-color);
-        }
-
-        .cta-button {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: var(--dark-color);
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-decoration: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         /* Features Section */
@@ -312,9 +306,9 @@
             color: var(--secondary-color);
         }
 
-        /* Forms */
+        /* Modal Styles */
         .modal {
-            display: none; /* Removed !important to allow openModal to work */
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -324,115 +318,267 @@
             z-index: 2000;
             overflow: auto;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             padding: 20px;
         }
 
         .modal-content {
-            background-color: white;
-            border-radius: 8px;
-            width: 95%;
-            max-width: 400px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: modalOpen 0.4s ease-out;
-        }
-
-        @keyframes modalOpen {
-            from {
-                opacity: 0;
-                transform: translateY(-60px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .close-btn {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 22px;
-            color: #777;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: #fff;
             cursor: pointer;
-            background: none;
+            background: rgba(0, 0, 0, 0.5);
             border: none;
-            transition: color 0.3s ease;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+            z-index: 1001;
         }
 
         .close-btn:hover {
-            color: var(--dark-color);
-        }
-
-        .form-title {
-            text-align: center;
-            margin-bottom: 25px;
-            color: var(--primary-color);
-            font-size: 1.6rem;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            min-height: 70px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-color);
-            font-weight: 500;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-control:focus {
-            border-color: var(--primary-color);
-            outline: none;
-        }
-
-        .form-button {
-            width: 100%;
-            padding: 12px;
-            background-color: var(--primary-color);
+            background: var(--primary-color);
             color: white;
+            transform: scale(1.1);
+        }
+
+        /* Login/Signup Animation Styles */
+        * {
+            font-family: "Poppins", sans-serif;
+        }
+
+        @property --a {
+            syntax: "<angle>";
+            inherits: false;
+            initial-value: 0deg;
+        }
+
+        .box {
+            position: relative;
+            width: 420px;
+            height: 220px;
+            background: repeating-conic-gradient(
+                from var(--a),
+                var(--primary-color) 0%, /* Green #4CAF50 */
+                var(--primary-color) 5%,
+                transparent 5%,
+                transparent 40%,
+                var(--primary-color) 50%
+            );
+            filter: drop-shadow(0 10px 30px rgba(76, 175, 80, 0.4));
+            border-radius: 24px;
+            animation: rotating 4s linear infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.5s ease;
+        }
+
+        @keyframes rotating {
+            0% {
+                --a: 0deg;
+            }
+            100% {
+                --a: 360deg;
+            }
+        }
+
+        .box::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-conic-gradient(
+                from var(--a),
+                #A5D6A7 0%, /* Light green */
+                #A5D6A7 5%,
+                transparent 5%,
+                transparent 40%,
+                #A5D6A7 50%
+            );
+            filter: drop-shadow(0 10px 30px rgba(165, 214, 167, 0.4));
+            border-radius: 24px;
+            animation: rotating 4s linear infinite;
+            animation-delay: -1s;
+        }
+
+        .box::after {
+            content: "";
+            position: absolute;
+            inset: 6px;
+            background: linear-gradient(135deg, #E8F5E9, var(--light-color)); /* Light green to white */
+            border-radius: 18px;
+            border: 4px solid #C8E6C9; /* Subtle green border */
+            box-shadow: inset 0 0 10px rgba(76, 175, 80, 0.1);
+        }
+
+        .box:hover {
+            width: 480px;
+            height: 520px;
+        }
+
+        .box:hover .login {
+            inset: 30px;
+        }
+
+        .box:hover .loginBx {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .login {
+            position: absolute;
+            inset: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--text-color);
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            transition: all 0.5s ease;
+            overflow: hidden;
+        }
+
+        .loginBx {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 25px;
+            width: 80%;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        h2 {
+            font-family: "Poppins", sans-serif;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--primary-color);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 i {
+            color: var(--secondary-color);
+            font-style: italic;
+            text-shadow: 0 0 8px rgba(56, 142, 60, 0.5);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 20px;
+            outline: none;
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            font-size: 1em;
+            color: var(--text-color);
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            resize: none;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #888;
+            font-style: italic;
+        }
+
+        input[type="submit"] {
+            background: var(--primary-color);
             border: none;
-            border-radius: 4px;
-            font-size: 1rem;
             font-weight: 600;
+            color: white;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            padding: 12px 30px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            transform: scale(1);
         }
 
-        .form-button:hover {
-            background-color: var(--secondary-color);
+        input[type="submit"]:hover {
+            background: var(--secondary-color);
+            box-shadow: 0 0 12px rgba(76, 175, 80, 0.6);
+            transform: scale(1.05);
         }
 
-        .form-footer {
-            text-align: center;
-            margin-top: 20px;
+        .group {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
             font-size: 0.9rem;
         }
 
-        .form-footer a {
-            color: var(--primary-color);
+        .group a {
+            color: var(--text-color);
             text-decoration: none;
-            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .group a:hover {
+            color: var(--primary-color);
+        }
+
+        .group a:nth-child(2) {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .box:hover {
+            height: 720px;
+        }
+
+        .login {
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) #f1f1f1;
+        }
+
+        /* Password toggle button */
+        .toggle-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--primary-color);
+            font-size: 1.2em;
+            transition: color 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            color: var(--secondary-color);
         }
 
         /* Footer */
         footer {
+            flex-shrink: 0;
             background-color: var(--dark-color);
             color: white;
             padding: 40px 0 20px;
@@ -540,17 +686,26 @@
             }
 
             .role-actions {
-                flex-direction: column;
-                bottom: -80px;
+                bottom: -60px;
+                gap: 8px;
+                flex-direction: row;
             }
 
             .role-card:hover .role-actions {
-                bottom: -80px;
+                bottom: -50px;
             }
 
-            .modal-content {
-                padding: 20px;
-                max-height: 85vh;
+            .role-button {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+
+            .box {
+                width: 90vw;
+            }
+
+            .box:hover {
+                height: 750px;
             }
         }
 
@@ -563,19 +718,41 @@
                 font-size: 1.8rem;
             }
 
-            .cta-button {
-                padding: 10px 25px;
-                font-size: 1rem;
-            }
-
             .section-title h3 {
                 font-size: 1.8rem;
             }
 
-            .modal-content {
-                width: 90%;
-                padding: 15px;
-                max-height: 80vh;
+            .role-card {
+                width: 130px;
+                padding: 10px;
+            }
+
+            .role-actions {
+                flex-direction: row;
+                gap: 5px;
+            }
+
+            .role-button {
+                padding: 5px 8px;
+                font-size: 0.7rem;
+            }
+
+            .box {
+                width: 95%;
+            }
+
+            .box:hover {
+                width: 95%;
+                height: 680px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            input, textarea {
+                padding: 10px 15px;
+                font-size: 0.9em;
             }
         }
     </style>
@@ -602,530 +779,252 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h2>Bridging Farmers and Markets, Seamlessly</h2>
-                <p>KrishiSetu provides farmers with access to agricultural knowledge, market prices, weather forecasts, and connects them to buyers and suppliers.</p>
-                
-                <div class="user-roles">
-                    <div class="role-card" id="farmerRole">
-                        <div class="role-icon">👨‍🌾</div>
-                        <h3>Farmer</h3>
-                        <p>Sell crops and buy resources from sellers</p>
-                        <div class="role-actions">
-                            <button class="role-button login" data-role="farmer">Login</button>
-                            <button class="role-button signup" data-role="farmer">Sign Up</button>
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>Bridging Farmers and Markets, Seamlessly</h2>
+                    <p>KrishiSetu provides farmers with access to agricultural knowledge, market prices, weather forecasts, and connects them to buyers and suppliers.</p>
+                    
+                    <div class="user-roles">
+                        <div class="role-card" id="farmerRole">
+                            <div class="role-icon">👨‍🌾</div>
+                            <h3>Farmer</h3>
+                            <p>Sell crops and buy resources from sellers</p>
+                            <div class="role-actions">
+                                <button class="role-button login" data-role="farmer">Login</button>
+                                <button class="role-button signup" data-role="farmer">Sign Up</button>
+                            </div>
+                        </div>
+                        <div class="role-card" id="sellerRole">
+                            <div class="role-icon">🏪</div>
+                            <h3>Seller</h3>
+                            <p>Sell resources to farmers</p>
+                            <div class="role-actions">
+                                <button class="role-button login" data-role="seller">Login</button>
+                                <button class="role-button signup" data-role="seller">Sign Up</button>
+                            </div>
+                        </div>
+                        <div class="role-card" id="userRole">
+                            <div class="role-icon">👤</div>
+                            <h3>User</h3>
+                            <p>Browse and purchase products</p>
+                            <div class="role-actions">
+                                <button class="role-button login" data-role="user">Login</button>
+                                <button class="role-button signup" data-role="user">Sign Up</button>
+                            </div>
+                        </div>
+                        <div class="role-card" id="adminRole">
+                            <div class="role-icon">⚙️</div>
+                            <h3>Admin</h3>
+                            <p>Manage platform operations</p>
+                            <div class="role-actions">
+                                <button class="role-button login" data-role="admin">Login</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="role-card" id="sellerRole">
-                        <div class="role-icon">🏪</div>
-                        <h3>Seller</h3>
-                        <p>Sell resources to farmers</p>
-                        <div class="role-actions">
-                            <button class="role-button login" data-role="seller">Login</button>
-                            <button class="role-button signup" data-role="seller">Sign Up</button>
-                        </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <div class="section-title">
+                    <h3>Our Features</h3>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🌦️</div>
+                        <h4>Weather Forecasts</h4>
+                        <p>Get accurate weather predictions and alerts to plan your farming activities effectively.</p>
                     </div>
-                    <div class="role-card" id="userRole">
-                        <div class="role-icon">👤</div>
-                        <h3>User</h3>
-                        <p>Browse and purchase products</p>
-                        <div class="role-actions">
-                            <button class="role-button login" data-role="user">Login</button>
-                            <button class="role-button signup" data-role="user">Sign Up</button>
-                        </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h4>Market Prices</h4>
+                        <p>Access real-time market prices for various crops to make informed selling decisions.</p>
                     </div>
-                    <div class="role-card" id="adminRole">
-                        <div class="role-icon">⚙️</div>
-                        <h3>Admin</h3>
-                        <p>Manage platform operations</p>
-                        <div class="role-actions">
-                            <button class="role-button login" data-role="admin">Login</button>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤝</div>
+                        <h4>Connect with Buyers</h4>
+                        <p>Directly connect with buyers and eliminate middlemen to maximize your profits.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Farmer Login Modal -->
+        <div class="modal" id="farmerLoginModal">
+            <div class="modal-content">
+                <button class="close-btn" id="closeFarmerLoginBtn">×</button>
+                <div class="box">
+                    <div class="login">
+                        <div class="loginBx">
+                            <h2>Farmer <i>Login</i></h2>
+                            <form id="farmerLoginForm">
+                                <input type="email" id="farmerLoginEmail" placeholder="Enter your email" required>
+                                <input type="password" id="farmerLoginPassword" placeholder="Enter your password" required>
+                                <input type="submit" value="Login">
+                                <div class="group">
+                                    <a href="#" class="switchToSignup" data-role="farmer">Don't have an account? Sign up</a>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Features Section -->
-    <section class="features">
-        <div class="container">
-            <div class="section-title">
-                <h3>Our Features</h3>
+        <!-- Farmer Signup Modal -->
+        <div class="modal" id="farmerSignupModal">
+            <div class="modal-content">
+                <button class="close-btn" id="closeFarmerSignupBtn">×</button>
+                <div class="box">
+                    <div class="login">
+                        <div class="loginBx">
+                            <h2>Create Farmer <i>Account</i></h2>
+                            <form id="farmerSignupForm">
+                                <input type="text" id="farmerSignupName" placeholder="Enter your full name" required>
+                                <input type="tel" id="farmerSignupPhone" placeholder="Enter your phone number" required>
+                                <input type="email" id="farmerSignupEmail" placeholder="Enter your email" required>
+                                <input type="number" id="farmerSignupLand" placeholder="Enter land size (acres)" required>
+                                <input type="text" id="farmerSignupVillage" placeholder="Enter village name" required>
+                                <input type="text" id="farmerSignupState" placeholder="Enter state name" required>
+                                <input type="number" id="farmerSignupPincode" placeholder="Enter pincode" required>
+                                <input type="password" id="farmerSignupPassword" placeholder="Create a password" required>
+                                <input type="password" id="farmerSignupConfirmPassword" placeholder="Confirm your password" required>
+                                <input type="submit" value="Sign Up">
+                                <div class="group">
+                                    <a href="#" class="switchToLogin" data-role="farmer">Already have an account? Login</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🌦️</div>
-                    <h4>Weather Forecasts</h4>
-                    <p>Get accurate weather predictions and alerts to plan your farming activities effectively.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h4>Market Prices</h4>
-                    <p>Access real-time market prices for various crops to make informed selling decisions.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🤝</div>
-                    <h4>Connect with Buyers</h4>
-                    <p>Directly connect with buyers and eliminate middlemen to maximize your profits.</p>
+        </div>
+
+        <!-- Seller Login Modal -->
+        <div class="modal" id="sellerLoginModal">
+            <div class="modal-content">
+                <button class="close-btn" id="closeSellerLoginBtn">×</button>
+                <div class="box">
+                    <div class="login">
+                        <div class="loginBx">
+                            <h2>Seller <i>Login</i></h2>
+                            <form id="sellerLoginForm">
+                                <input type="email" id="sellerLoginEmail" placeholder="Enter your email" required>
+                                <input type="password" id="sellerLoginPassword" placeholder="Enter your password" required>
+                                <input type="submit" value="Login">
+                                <div class="group">
+                                    <a href="#" class="switchToSignup" data-role="seller">Don't have an account? Sign up</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Farmer Login Modal -->
-    <div class="modal" id="farmerLoginModal">
-        <div class="modal-content">
-            <button class="close-btn" id="closeFarmerLoginBtn"></button>
-            <h2 class="form-title">Farmer Login</h2>
-            <form id="farmerLoginForm">
-                <div class="form-group">
-                    <label for="farmerLoginEmail">Email</label>
-                    <input type="email" id="farmerLoginEmail" class="form-control" placeholder="Enter your email" required>
+        <!-- Seller Signup Modal -->
+        <div class="modal" id="sellerSignupModal">
+            <div class="modal-content">
+                <button class="close-btn" id="closeSellerSignupBtn">×</button>
+                <div class="box">
+                    <div class="login">
+                        <div class="loginBx">
+                            <h2>Create Seller <i>Account</i></h2>
+                            <form id="sellerSignupForm">
+                                <input type="text" id="sellerSignupName" placeholder="Enter business name" required>
+                                <input type="tel" id="sellerSignupPhone" placeholder="Enter your phone number" required>
+                                <input type="email" id="sellerSignupEmail" placeholder="Enter your email" required>
+                                <input type="text" id="sellerSignupGST" placeholder="Enter GST number" required>
+                                <input type="text" id="sellerSignupVillage" placeholder="Enter village name" required>
+                                <input type="text" id="sellerSignupState" placeholder="Enter state name" required>
+                                <input type="number" id="sellerSignupPincode" placeholder="Enter pincode" required>
+                                <input type="password" id="sellerSignupPassword" placeholder="Create a password" required>
+                                <input type="password" id="sellerSignupConfirmPassword" placeholder="Confirm your password" required>
+                                <input type="submit" value="Sign Up">
+                                <div class="group">
+                                    <a href="#" class="switchToLogin" data-role="seller">Already have an account? Login</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="farmerLoginPassword">Password</label>
-                    <input type="password" id="farmerLoginPassword" class="form-control" placeholder="Enter your password" required>
-                </div>
-                <button type="submit" class="form-button">Login</button>
-                <div class="form-footer">
-                    <p>Don't have an account? <a href="#" class="switchToSignup" data-role="farmer">Sign up</a></p>
-                    
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
 
-    <script>
-        document.getElementById("farmerLoginForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            console.log('Farmer login form submitted');
-            const data = {
-                email: document.getElementById("farmerLoginEmail").value,
-                password: document.getElementById("farmerLoginPassword").value
-            };
-            try {
-                const res = await fetch('/login/farmer', {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-                const result = await res.json();
-                if (result.status === "success") {
-                    window.location.href = "/farmer";
-                } else {
-                    alert(result.message);
-                }
-            } catch (error) {
-                console.error('Error submitting farmer login:', error);
-                alert('An error occurred. Please try again.');
-            }
-        });
-    </script>
-
-    <!-- Farmer Signup Modal -->
-    <div class="modal" id="farmerSignupModal">
-        <div class="modal-content">
-            <button class="close-btn" id="closeFarmerSignupBtn">×</button>
-            <h2 class="form-title">Create Farmer Account</h2>
-            <form id="farmerSignupForm">
-                <div class="form-group">
-                    <label for="farmerSignupName">Full Name</label>
-                    <input type="text" id="farmerSignupName" class="form-control" placeholder="Enter your full name" required>
+        <!-- User Login Modal -->
+        <div class="modal" id="userLoginModal">
+            <div class="modal-content">
+                <button class="close-btn" id="closeUserLoginBtn">×</button>
+                <div class="box">
+                    <div class="login">
+                        <div class="loginBx">
+                            <h2>User <i>Login</i></h2>
+                            <form id="userLoginForm">
+                                <input type="email" id="userLoginEmail" placeholder="Enter your email" required>
+                                <input type="password" id="userLoginPassword" placeholder="Enter your password" required>
+                                <input type="submit" value="Login">
+                                <div class="group">
+                                    <a href="#" class="switchToSignup" data-role="user">Don't have an account? Sign up</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="farmerSignupPhone">Phone Number</label>
-                    <input type="tel" id="farmerSignupPhone" class="form-control" placeholder="Enter your phone number" required>
-                </div>
-                <div class="form-group">
-                    <label for="farmerSignupEmail">Email</label>
-                    <input type="email" id="farmerSignupEmail" class="form-control" placeholder="Enter your email" required>
-                </div>
-                <div class="form-group">
-                    <label for="farmerSignupLand">Land Size (Acres)</label>
-                    <input type="number" id="farmerSignupLand" class="form-control" placeholder="Enter land size" required>
-                </div>
-                <div class="form-group">
-                    <label for="farmerSignupVillage">Village Name</label>
-                    <input type="text" id="farmerSignupVillage" class="form-control" placeholder="Enter Village Name" required>
-                </div>
-                <div class="form-group">
-                    <label for="farmerSignupState">State Name</label>
-                    <input type="text" id="farmerSignupState" class="form-control" placeholder="Enter State Name" required>
-                </div>
-                <div class="form-group">
-                    <label for="farmerSignupPincode">Pincode</label>
-                    <input type="number" id="farmerSignupPincode" class="form-control" placeholder="Enter the PinCode" required>
-                </div>
-                <div class="form-group">
-                    <label for="farmerSignupPassword">Password</label>
-                    <input type="password" id="farmerSignupPassword" class="form-control" placeholder="Create a password" required>
-                </div>
-                <div class="form-group">
-                    <label for="farmerSignupConfirmPassword">Confirm Password</label>
-                    <input type="password" id="farmerSignupConfirmPassword" class="form-control" placeholder="Confirm your password" required>
-                </div>
-                <button type="submit" class="form-button">Sign Up</button>
-                <div class="form-footer">
-                    <p>Already have an account? <a href="#" class="switchToLogin" data-role="farmer">Login</a></p>
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
 
-    <script>
-        document.getElementById("farmerSignupForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            console.log('Farmer signup form submitted');
-            const password = document.getElementById("farmerSignupPassword").value;
-            const confirmPassword = document.getElementById("farmerSignupConfirmPassword").value;
-            if (password !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
-            const data = {
-                name: document.getElementById("farmerSignupName").value,
-                phone: document.getElementById("farmerSignupPhone").value,
-                email: document.getElementById("farmerSignupEmail").value,
-                land: document.getElementById("farmerSignupLand").value,
-                village: document.getElementById("farmerSignupVillage").value,
-                state: document.getElementById("farmerSignupState").value,
-                pincode: document.getElementById("farmerSignupPincode").value,
-                password: password
-            };
-            try {
-                const res = await fetch('/signup/farmer', {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-                const result = await res.json();
-                alert(result.message);
-                document.getElementById("farmerSignupForm").reset();
-                document.getElementById("farmerSignupModal").style.display = 'none';
-                document.body.style.overflow = '';
-            } catch (error) {
-                console.error('Error submitting farmer signup:', error);
-                alert('An error occurred. Please try again.');
-            }
-        });
-    </script>
-
-    <!-- Seller Login Modal -->
-    <div class="modal" id="sellerLoginModal">
-        <div class="modal-content">
-            <button class="close-btn" id="closeSellerLoginBtn">×</button>
-            <h2 class="form-title">Seller Login</h2>
-            <form id="sellerLoginForm">
-                <div class="form-group">
-                    <label for="sellerLoginEmail">Email</label>
-                    <input type="email" id="sellerLoginEmail" class="form-control" placeholder="Enter your email" required>
+        <!-- User Signup Modal -->
+        <div class="modal" id="userSignupModal">
+            <div class="modal-content">
+                <button class="close-btn" id="closeUserSignupBtn">×</button>
+                <div class="box">
+                    <div class="login">
+                        <div class="loginBx">
+                            <h2>Create User <i>Account</i></h2>
+                            <form id="userSignupForm">
+                                <input type="text" id="userSignupName" placeholder="Enter your full name" required>
+                                <input type="tel" id="userSignupPhone" placeholder="Enter your phone number" required>
+                                <input type="email" id="userSignupEmail" placeholder="Enter your email" required>
+                                <textarea id="userSignupAddress" placeholder="Enter your address" required></textarea>
+                                <input type="password" id="userSignupPassword" placeholder="Create a password" required>
+                                <input type="password" id="userSignupConfirmPassword" placeholder="Confirm your password" required>
+                                <input type="submit" value="Sign Up">
+                                <div class="group">
+                                    <a href="#" class="switchToLogin" data-role="user">Already have an account? Login</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="sellerLoginPassword">Password</label>
-                    <input type="password" id="sellerLoginPassword" class="form-control" placeholder="Enter your password" required>
-                </div>
-                <button type="submit" class="form-button">Login</button>
-                <div class="form-footer">
-                    <p>Don't have an account? <a href="#" class="switchToSignup" data-role="seller">Sign up</a></p>
-                    
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
 
-    <script>
-        document.getElementById("sellerLoginForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            console.log('Seller login form submitted');
-            const data = {
-                email: document.getElementById("sellerLoginEmail").value,
-                password: document.getElementById("sellerLoginPassword").value
-            };
-            try {
-                const res = await fetch('/login/seller', {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-                const result = await res.json();
-                if (result.status === "success") {
-                    window.location.href = "/seller";
-                } else {
-                    alert(result.message);
-                }
-            } catch (error) {
-                console.error('Error submitting seller login:', error);
-                alert('An error occurred. Please try again.');
-            }
-        });
-    </script>
-
-    <!-- Seller Signup Modal -->
-    <div class="modal" id="sellerSignupModal">
-        <div class="modal-content">
-            <button class="close-btn" id="closeSellerSignupBtn">×</button>
-            <h2 class="form-title">Create Seller Account</h2>
-            <form id="sellerSignupForm">
-                <div class="form-group">
-                    <label for="sellerSignupName">Business Name</label>
-                    <input type="text" id="sellerSignupName" class="form-control" placeholder="Enter business name" required>
+        <!-- Admin Login Modal -->
+        <div class="modal" id="adminLoginModal">
+            <div class="modal-content">
+                <button class="close-btn" id="closeAdminLoginBtn">×</button>
+                <div class="box">
+                    <div class="login">
+                        <div class="loginBx">
+                            <h2>Admin <i>Login</i></h2>
+                            <form id="adminLoginForm">
+                                <input type="email" id="adminLoginEmail" placeholder="Enter admin email" required>
+                                <input type="password" id="adminLoginPassword" placeholder="Enter admin password" required>
+                                <input type="password" id="adminLoginCode" placeholder="Enter admin code" required>
+                                <input type="submit" value="Login">
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="sellerSignupPhone">Phone Number</label>
-                    <input type="tel" id="sellerSignupPhone" class="form-control" placeholder="Enter your phone number" required>
-                </div>
-                <div class="form-group">
-                    <label for="sellerSignupEmail">Email</label>
-                    <input type="email" id="sellerSignupEmail" class="form-control" placeholder="Enter your email" required>
-                </div>
-                <div class="form-group">
-                    <label for="sellerSignupGST">GST Number</label>
-                    <input type="text" id="sellerSignupGST" class="form-control" placeholder="Enter GST number" required>
-                </div>
-                <div class="form-group">
-                    <label for="sellerSignupVillage">Village Name</label>
-                    <input type="text" id="sellerSignupVillage" class="form-control" placeholder="Enter Village Name" required>
-                </div>
-                <div class="form-group">
-                    <label for="sellerSignupState">State Name</label>
-                    <input type="text" id="sellerSignupState" class="form-control" placeholder="Enter State Name" required>
-                </div>
-                <div class="form-group">
-                    <label for="sellerSignupPincode">Pincode</label>
-                    <input type="number" id="sellerSignupPincode" class="form-control" placeholder="Enter the PinCode" required>
-                </div>
-                <div class="form-group">
-                    <label for="sellerSignupPassword">Password</label>
-                    <input type="password" id="sellerSignupPassword" class="form-control" placeholder="Create a password" required>
-                </div>
-                <div class="form-group">
-                    <label for="sellerSignupConfirmPassword">Confirm Password</label>
-                    <input type="password" id="sellerSignupConfirmPassword" class="form-control" placeholder="Confirm your password" required>
-                </div>
-                <button type="submit" class="form-button">Sign Up</button>
-                <div class="form-footer">
-                    <p>Already have an account? <a href="#" class="switchToLogin" data-role="seller">Login</a></p>
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
-
-    <script>
-        document.getElementById("sellerSignupForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            console.log('Seller signup form submitted');
-            const password = document.getElementById("sellerSignupPassword").value;
-            const confirmPassword = document.getElementById("sellerSignupConfirmPassword").value;
-            if (password !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
-            const data = {
-                name: document.getElementById("sellerSignupName").value,
-                phone: document.getElementById("sellerSignupPhone").value,
-                email: document.getElementById("sellerSignupEmail").value,
-                gst: document.getElementById("sellerSignupGST").value,
-                village: document.getElementById("sellerSignupVillage").value,
-                state: document.getElementById("sellerSignupState").value,
-                pincode: document.getElementById("sellerSignupPincode").value,
-                password: password
-            };
-            try {
-                const res = await fetch('/signup/seller', {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-                const result = await res.json();
-                alert(result.message);
-                document.getElementById("sellerSignupForm").reset();
-                document.getElementById("sellerSignupModal").style.display = 'none';
-                document.body.style.overflow = '';
-            } catch (error) {
-                console.error('Error submitting seller signup:', error);
-                alert('An error occurred. Please try again.');
-            }
-        });
-    </script>
-
-    <!-- User Login Modal -->
-    <div class="modal" id="userLoginModal">
-        <div class="modal-content">
-            <button class="close-btn" id="closeUserLoginBtn">×</button>
-            <h2 class="form-title">User Login</h2>
-            <form id="userLoginForm">
-                <div class="form-group">
-                    <label for="userLoginEmail">Email</label>
-                    <input type="email" id="userLoginEmail" class="form-control" placeholder="Enter your email" required>
-                </div>
-                <div class="form-group">
-                    <label for="userLoginPassword">Password</label>
-                    <input type="password" id="userLoginPassword" class="form-control" placeholder="Enter your password" required>
-                </div>
-                <button type="submit" class="form-button">Login</button>
-                <div class="form-footer">
-                    <p>Don't have an account? <a href="#" class="switchToSignup" data-role="user">Sign up</a></p>
-                    
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        document.getElementById("userLoginForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            console.log('User login form submitted');
-            const data = {
-                email: document.getElementById("userLoginEmail").value,
-                password: document.getElementById("userLoginPassword").value
-            };
-            try {
-                const res = await fetch('/login/user', {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-                const result = await res.json();
-                if (result.status === "success") {
-                    window.location.href = "/user";
-                } else {
-                    alert(result.message);
-                }
-            } catch (error) {
-                console.error('Error submitting user login:', error);
-                alert('An error occurred. Please try again.');
-            }
-        });
-    </script>
-
-    <!-- User Signup Modal -->
-    <div class="modal" id="userSignupModal">
-        <div class="modal-content">
-            <button class="close-btn" id="closeUserSignupBtn">×</button>
-            <h2 class="form-title">Create User Account</h2>
-            <form id="userSignupForm">
-                <div class="form-group">
-                    <label for="userSignupName">Full Name</label>
-                    <input type="text" id="userSignupName" class="form-control" placeholder="Enter your full name" required>
-                </div>
-                <div class="form-group">
-                    <label for="userSignupPhone">Phone Number</label>
-                    <input type="tel" id="userSignupPhone" class="form-control" placeholder="Enter your phone number" required>
-                </div>
-                <div class="form-group">
-                    <label for="userSignupEmail">Email</label>
-                    <input type="email" id="userSignupEmail" class="form-control" placeholder="Enter your email" required>
-                </div>
-                <div class="form-group">
-                    <label for="userSignupAddress">Address</label>
-                    <textarea id="userSignupAddress" class="form-control" placeholder="Enter your address" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="userSignupPassword">Password</label>
-                    <input type="password" id="userSignupPassword" class="form-control" placeholder="Create a password" required>
-                </div>
-                <div class="form-group">
-                    <label for="userSignupConfirmPassword">Confirm Password</label>
-                    <input type="password" id="userSignupConfirmPassword" class="form-control" placeholder="Confirm your password" required>
-                </div>
-                <button type="submit" class="form-button">Sign Up</button>
-                <div class="form-footer">
-                    <p>Already have an account? <a href="#" class="switchToLogin" data-role="user">Login</a></p>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        document.getElementById("userSignupForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            console.log('User signup form submitted');
-            const password = document.getElementById("userSignupPassword").value;
-            const confirmPassword = document.getElementById("userSignupConfirmPassword").value;
-            if (password !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
-            const data = {
-                name: document.getElementById("userSignupName").value,
-                phone: document.getElementById("userSignupPhone").value,
-                email: document.getElementById("userSignupEmail").value,
-                address: document.getElementById("userSignupAddress").value,
-                password: password
-            };
-            try {
-                const res = await fetch('/signup/user', {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-                const result = await res.json();
-                alert(result.message);
-                document.getElementById("userSignupForm").reset();
-                document.getElementById("userSignupModal").style.display = 'none';
-                document.body.style.overflow = '';
-            } catch (error) {
-                console.error('Error submitting user signup:', error);
-                alert('An error occurred. Please try again.');
-            }
-        });
-    </script>
-
-    <!-- Admin Login Modal -->
-    <div class="modal" id="adminLoginModal">
-        <div class="modal-content">
-            <button class="close-btn" id="closeAdminLoginBtn">×</button>
-            <h2 class="form-title">Admin Login</h2>
-            <form id="adminLoginForm">
-                <div class="form-group">
-                    <label for="adminLoginEmail">Email</label>
-                    <input type="email" id="adminLoginEmail" class="form-control" placeholder="Enter admin email" required>
-                </div>
-                <div class="form-group">
-                    <label for="adminLoginPassword">Password</label>
-                    <input type="password" id="adminLoginPassword" class="form-control" placeholder="Enter admin password" required>
-                </div>
-                <div class="form-group">
-                    <label for="adminLoginCode">Admin Code</label>
-                    <input type="password" id="adminLoginCode" class="form-control" placeholder="Enter admin code" required>
-                </div>
-                <button type="submit" class="form-button">Login</button>
-                
-            </form>
-        </div>
-    </div>
-
-    <script>
-        document.getElementById("adminLoginForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            console.log('Admin login form submitted');
-            const data = {
-                email: document.getElementById("adminLoginEmail").value,
-                password: document.getElementById("adminLoginPassword").value,
-                adminCode: document.getElementById("adminLoginCode").value
-            };
-            try {
-                const res = await fetch('/login/admin', {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-                const result = await res.json();
-                if (result.status === "success") {
-                    window.location.href = "/admin";
-                } else {
-                    alert(result.message);
-                }
-            } catch (error) {
-                console.error('Error submitting admin login:', error);
-                alert('An error occurred. Please try again.');
-            }
-        });
-    </script>
+    </main>
 
     <!-- Footer -->
     <footer>
@@ -1201,7 +1100,6 @@
             }
         };
 
-        // Open Modal Function with Debugging
         function openModal(modalElement) {
             if (modalElement) {
                 console.log('Opening modal:', modalElement.id);
@@ -1212,7 +1110,6 @@
             }
         }
 
-        // Close Modal Function
         function closeModal(modalElement) {
             if (modalElement) {
                 console.log('Closing modal:', modalElement.id);
@@ -1221,7 +1118,6 @@
             }
         }
 
-        // Close all modals
         function closeAllModals() {
             console.log('Closing all modals');
             for (const role in modals) {
@@ -1231,13 +1127,11 @@
             }
         }
 
-        // Ensure all modals are closed on page load
         window.addEventListener('load', () => {
             console.log('Page loaded, ensuring all modals are closed');
             closeAllModals();
         });
 
-        // Add event listeners for login buttons
         document.querySelectorAll('.role-button.login').forEach(button => {
             button.addEventListener('click', () => {
                 const role = button.dataset.role;
@@ -1251,7 +1145,6 @@
             });
         });
 
-        // Add event listeners for signup buttons
         document.querySelectorAll('.role-button.signup').forEach(button => {
             button.addEventListener('click', () => {
                 const role = button.dataset.role;
@@ -1265,7 +1158,6 @@
             });
         });
 
-        // Add event listeners for close buttons
         document.querySelectorAll('.close-btn').forEach(button => {
             button.addEventListener('click', () => {
                 console.log('Close button clicked');
@@ -1273,7 +1165,6 @@
             });
         });
 
-        // Switch between login and signup forms
         document.querySelectorAll('.switchToLogin').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1302,7 +1193,6 @@
             });
         });
 
-        // Close modal when clicking outside the modal content
         window.addEventListener('click', (e) => {
             for (const role in modals) {
                 for (const type in modals[role]) {
@@ -1314,19 +1204,224 @@
             }
         });
 
-        // Password validation
+        // Form Submission Handlers
+        document.getElementById("farmerLoginForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            console.log('Farmer login form submitted');
+            const data = {
+                email: document.getElementById("farmerLoginEmail").value,
+                password: document.getElementById("farmerLoginPassword").value
+            };
+            try {
+                const res = await fetch('/login/farmer', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                if (result.status === "success") {
+                    window.location.href = "/farmer";
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                console.error('Error submitting farmer login:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        document.getElementById("farmerSignupForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            console.log('Farmer signup form submitted');
+            const password = document.getElementById("farmerSignupPassword").value;
+            const confirmPassword = document.getElementById("farmerSignupConfirmPassword").value;
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            const data = {
+                name: document.getElementById("farmerSignupName").value,
+                phone: document.getElementById("farmerSignupPhone").value,
+                email: document.getElementById("farmerSignupEmail").value,
+                land: document.getElementById("farmerSignupLand").value,
+                village: document.getElementById("farmerSignupVillage").value,
+                state: document.getElementById("farmerSignupState").value,
+                pincode: document.getElementById("farmerSignupPincode").value,
+                password: password
+            };
+            try {
+                const res = await fetch('/signup/farmer', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                alert(result.message);
+                document.getElementById("farmerSignupForm").reset();
+                document.getElementById("farmerSignupModal").style.display = 'none';
+                document.body.style.overflow = '';
+            } catch (error) {
+                console.error('Error submitting farmer signup:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        document.getElementById("sellerLoginForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            console.log('Seller login form submitted');
+            const data = {
+                email: document.getElementById("sellerLoginEmail").value,
+                password: document.getElementById("sellerLoginPassword").value
+            };
+            try {
+                const res = await fetch('/login/seller', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                if (result.status === "success") {
+                    window.location.href = "/seller";
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                console.error('Error submitting seller login:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        document.getElementById("sellerSignupForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            console.log('Seller signup form submitted');
+            const password = document.getElementById("sellerSignupPassword").value;
+            const confirmPassword = document.getElementById("sellerSignupConfirmPassword").value;
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            const data = {
+                name: document.getElementById("sellerSignupName").value,
+                phone: document.getElementById("sellerSignupPhone").value,
+                email: document.getElementById("sellerSignupEmail").value,
+                gst: document.getElementById("sellerSignupGST").value,
+                village: document.getElementById("sellerSignupVillage").value,
+                state: document.getElementById("sellerSignupState").value,
+                pincode: document.getElementById("sellerSignupPincode").value,
+                password: password
+            };
+            try {
+                const res = await fetch('/signup/seller', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                alert(result.message);
+                document.getElementById("sellerSignupForm").reset();
+                document.getElementById("sellerSignupModal").style.display = 'none';
+                document.body.style.overflow = '';
+            } catch (error) {
+                console.error('Error submitting seller signup:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        document.getElementById("userLoginForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            console.log('User login form submitted');
+            const data = {
+                email: document.getElementById("userLoginEmail").value,
+                password: document.getElementById("userLoginPassword").value
+            };
+            try {
+                const res = await fetch('/login/user', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                if (result.status === "success") {
+                    window.location.href = "/user";
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                console.error('Error submitting user login:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        document.getElementById("userSignupForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            console.log('User signup form submitted');
+            const password = document.getElementById("userSignupPassword").value;
+            const confirmPassword = document.getElementById("userSignupConfirmPassword").value;
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            const data = {
+                name: document.getElementById("userSignupName").value,
+                phone: document.getElementById("userSignupPhone").value,
+                email: document.getElementById("userSignupEmail").value,
+                address: document.getElementById("userSignupAddress").value,
+                password: password
+            };
+            try {
+                const res = await fetch('/signup/user', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                alert(result.message);
+                document.getElementById("userSignupForm").reset();
+                document.getElementById("userSignupModal").style.display = 'none';
+                document.body.style.overflow = '';
+            } catch (error) {
+                console.error('Error submitting user signup:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        document.getElementById("adminLoginForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            console.log('Admin login form submitted');
+            const data = {
+                email: document.getElementById("adminLoginEmail").value,
+                password: document.getElementById("adminLoginPassword").value,
+                adminCode: document.getElementById("adminLoginCode").value
+            };
+            try {
+                const res = await fetch('/login/admin', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                if (result.status === "success") {
+                    window.location.href = "/admin";
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                console.error('Error submitting admin login:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        // Form Validations
         function validatePassword(password) {
             const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
             return regex.test(password);
         }
 
-        // Email validation
         function validateEmail(email) {
             const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return regex.test(email);
         }
 
-        // Add input validation for password fields
         document.querySelectorAll('input[type="password"]').forEach(input => {
             if (input.id.includes('Signup') && !input.id.includes('Confirm')) {
                 input.addEventListener('input', () => {
@@ -1340,7 +1435,6 @@
             }
         });
 
-        // Add input validation for email fields
         document.querySelectorAll('input[type="email"]').forEach(input => {
             input.addEventListener('input', () => {
                 const isValid = validateEmail(input.value);
@@ -1352,7 +1446,6 @@
             });
         });
 
-        // Add confirmation before form submission
         document.querySelectorAll('form').forEach(form => {
             form.addEventListener('submit', (e) => {
                 const formId = form.id;
@@ -1365,7 +1458,7 @@
             });
         });
 
-        // Add password visibility toggle
+        // Password Toggle
         function addPasswordToggle() {
             const passwordFields = document.querySelectorAll('input[type="password"]');
             
@@ -1373,13 +1466,7 @@
                 const toggleBtn = document.createElement('button');
                 toggleBtn.type = 'button';
                 toggleBtn.innerText = '👁️';
-                toggleBtn.style.position = 'absolute';
-                toggleBtn.style.right = '10px';
-                toggleBtn.style.top = '50%';
-                toggleBtn.style.transform = 'translateY(-50%)';
-                toggleBtn.style.background = 'none';
-                toggleBtn.style.border = 'none';
-                toggleBtn.style.cursor = 'pointer';
+                toggleBtn.className = 'toggle-btn';
                 
                 const wrapper = document.createElement('div');
                 wrapper.style.position = 'relative';
@@ -1400,33 +1487,7 @@
             });
         }
 
-        // Call the function to add password toggles
         addPasswordToggle();
-
-        // Add role hover effects
-        document.querySelectorAll('.role-card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-10px)';
-                card.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)';
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = '';
-                card.style.boxShadow = '';
-            });
-        });
-
-        // Add subtle animation to forms
-        document.querySelectorAll('.form-control').forEach(input => {
-            input.addEventListener('focus', () => {
-                input.style.boxShadow = '0 0 0 2px rgba(76, 175, 80, 0.2)';
-                input.style.transition = 'all 0.3s ease';
-            });
-            
-            input.addEventListener('blur', () => {
-                input.style.boxShadow = '';
-            });
-        });
     </script>
 </body>
 </html>
