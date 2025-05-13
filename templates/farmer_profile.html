@@ -342,13 +342,12 @@
         <div class="container">
             <nav>
                 <div class="logo">
-                    <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="KrishiSetu Logo">
+                    <img src="images/logo.jpg" alt="KrishiSetu Logo">
                     <h1>KrishiSetu</h1>
                 </div>
             </nav>
         </div>
     </header>
-
 
     <!-- Main Content -->
     <div class="main-content">
@@ -371,19 +370,19 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="fullName">Full Name</label>
-                            <input type="text" id="fullName" class="form-control" value="Rajesh Kumar" required>
+                            <input type="text" id="fullName" class="form-control" value="Rajesh Kumar" required disabled>
                         </div>
                     </div>
-                    
+                   
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" class="form-control" value="9876543210" required>
+                        <input type="tel" id="phone" class="form-control" value="9876543210" required disabled>
                     </div>
                     <div class="form-group">
                         <label for="land">Land Size (Acres)</label>
-                        <input type="number" id="land" class="form-control" value="5" required>
+                        <input type="number" id="land" class="form-control" value="5" required disabled>
                     </div>
-                    <button type="submit" class="form-button">Save Changes</button>
+                    <button type="submit" class="form-button" disabled>Save Changes</button>
                 </form>
             </div>
         </div>
@@ -428,9 +427,31 @@
 
         // Edit Profile Button
         const editProfileBtn = document.getElementById('editProfileBtn');
+        const formInputs = document.querySelectorAll('#profileForm input');
+        const saveButton = document.querySelector('.form-button');
+        let editMode = false;
+        
         editProfileBtn.addEventListener('click', () => {
-            // Focus on the first input field
-            document.getElementById('fullName').focus();
+            editMode = !editMode;
+            
+            if(editMode) {
+                // Enable editing
+                formInputs.forEach(input => {
+                    input.disabled = false;
+                });
+                saveButton.disabled = false;
+                document.getElementById('fullName').focus();
+                editProfileBtn.innerHTML = '<span class="fa fa-edit"></span> Cancel Editing';
+                editProfileBtn.style.backgroundColor = '#FF9800';
+            } else {
+                // Disable editing
+                formInputs.forEach(input => {
+                    input.disabled = true;
+                });
+                saveButton.disabled = true;
+                editProfileBtn.innerHTML = '<span class="fa fa-edit"></span> Edit Profile';
+                editProfileBtn.style.backgroundColor = '';
+            }
         });
     </script>
 </body>
