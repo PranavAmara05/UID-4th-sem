@@ -1007,7 +1007,7 @@
                 
                 <div class="user-menu">
                     <div class="user-icon" id="userMenuToggle">
-                        👤 <span>John Doe</span>
+                        👤 <span></span>
                     </div>
                     <div class="dropdown-menu" id="userDropdown">
                         <a href = "{{ url_for('user_profile') }}";>My Profile</a>
@@ -1875,7 +1875,7 @@
             };
             
             // Update welcome message
-            document.querySelector('.welcome-section h2').textContent = `Welcome back, ${userData.name}!`;
+            document.querySelector('.welcome-section h2').textContent = `Welcome back, `;
             
             // Update recent order card
             updateRecentOrderCard();
