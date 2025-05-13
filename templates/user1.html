@@ -994,14 +994,14 @@
         <div class="container">
             <nav>
                 <div class="logo">
-                    <img src="images/logo.jpg" alt="KrishiSetu Logo">
+                    <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="KrishiSetu Logo">
                     <h1>KrishiSetu</h1>
                 </div>
                 
                 <button class="hamburger" id="hamburger">☰</button>
                 
                 <div class="nav-links" id="navLinks">
-                    <a href="home.html">Home</a>
+                    <a href = "{{ url_for('home') }}";>Home</a>
                     <a href="#" id="cartLink">Cart (0)</a>
                 </div>
                 
@@ -1010,8 +1010,8 @@
                         👤 <span>John Doe</span>
                     </div>
                     <div class="dropdown-menu" id="userDropdown">
-                        <a href="user_profile.html">My Profile</a>
-                        <a href="logout.html">Logout</a>
+                        <a href = "{{ url_for('user_profile') }}";>My Profile</a>
+                        <a href ="{{ url_for('logout') }}";>Logout</a>
                     </div>
                 </div>
             </nav>
@@ -1071,12 +1071,11 @@
                 <div class="products-section">
                     <div class="section-header">
                         <h3>Browse Products</h3>
-                        <a href="all_products.html" class="view-all">View All</a>
                     </div>
                     <div class="product-grid">
                         <div class="product-card">
                             <div class="product-image">
-                                <img src="/api/placeholder/400/320" alt="Organic Potatoes">
+                                <img src="{{ url_for('static', filename='images/potatoes.jpeg') }}" alt="Organic Potatoes">
                                 <span class="product-badge">Organic</span>
                             </div>
                             <div class="product-details">
@@ -1094,7 +1093,7 @@
                         </div>
                         <div class="product-card">
                             <div class="product-image">
-                                <img src="/api/placeholder/400/320" alt="Fresh Onions">
+                                <img src="{{ url_for('static', filename='images/onions.jpeg') }}" alt="Fresh Onions">
                             </div>
                             <div class="product-details">
                                 <h4 class="product-title">Fresh Onions</h4>
@@ -1111,7 +1110,7 @@
                         </div>
                         <div class="product-card">
                             <div class="product-image">
-                                <img src="/api/placeholder/400/320" alt="Green Peas">
+                                <img src="{{ url_for('static', filename='images/green_peas.jpeg') }}" alt="Green Peas">
                                 <span class="product-badge">New</span>
                             </div>
                             <div class="product-details">
@@ -1127,19 +1126,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Featured Products -->
-                <div class="products-section">
-                    <div class="section-header">
-                        <h3>Featured Products</h3>
-                        <a href="all_products.html" class="view-all">View All</a>
-                    </div>
-                    <div class="product-grid">
+                    
                         <div class="product-card">
                             <div class="product-image">
-                                <img src="/api/placeholder/400/320" alt="Organic Rice">
+                                <img src="{{ url_for('static', filename='images/basmati.jpeg') }}" alt="Organic Rice">
                                 <span class="product-badge">Organic</span>
                             </div>
                             <div class="product-details">
@@ -1157,7 +1147,7 @@
                         </div>
                         <div class="product-card">
                             <div class="product-image">
-                                <img src="/api/placeholder/400/320" alt="Fresh Tomatoes">
+                                <img src="{{ url_for('static', filename='images/tomato.jpeg') }}" alt="Fresh Tomatoes">
                             </div>
                             <div class="product-details">
                                 <h4 class="product-title">Fresh Tomatoes</h4>
@@ -1174,7 +1164,7 @@
                         </div>
                         <div class="product-card">
                             <div class="product-image">
-                                <img src="/api/placeholder/400/320" alt="Wheat Flour">
+                                <img src="{{ url_for('static', filename='images/wheat-flour.jpg') }}" alt="Wheat Flour">
                                 <span class="product-badge">Best Seller</span>
                             </div>
                             <div class="product-details">
@@ -1192,7 +1182,7 @@
                         </div>
                         <div class="product-card">
                             <div class="product-image">
-                                <img src="/api/placeholder/400/320" alt="Fresh Apples">
+                                <img src="{{ url_for('static', filename='images/apple.jpeg') }}" alt="Fresh Apples">
                             </div>
                             <div class="product-details">
                                 <h4 class="product-title">Kashmir Apples</h4>
