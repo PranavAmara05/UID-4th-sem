@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KrishiSetu</title>
-    <link rel="stylesheet" href="style.css">
     <style>
         /* Global Styles */
         * {
@@ -27,14 +26,6 @@
             background-color: #f5f5f5;
             color: var(--text-color);
             line-height: 1.6;
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        main {
-            flex: 1 0 auto;
         }
 
         .container {
@@ -68,14 +59,13 @@
 
         .logo img {
             height: 35px;
-            margin-right: 10px;
-        }
+            margin-right: 10px; }
 
-        .logo h1 {
-            color: var(--primary-color);
-            font-size: 36px;
-            font-weight: 700;
-        }
+.logo h1 {
+    color: var(--primary-color);
+    font-size: 36px;  
+    font-weight: 700;
+}
 
         .nav-links {
             display: flex;
@@ -104,39 +94,36 @@
 
         /* Hero Section */
         .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: white;
-            padding: 100px 0 60px;
-            z-index: 1;
-            overflow: hidden;
-        }
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 100px 0 60px;
+    z-index: 1;
+    overflow: hidden;
+}
 
-        .hero::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url("{{ url_for('static', filename='images/water.jpg') }}") no-repeat center center/cover;
-            opacity: 0.5;
-            z-index: -1;
-        }
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url("{{ url_for('static', filename='images/water.jpg') }}") no-repeat center center/cover;
+    opacity: 0.5; /* watermark effect */
+    z-index: -1;
+}
 
-        .hero::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
-            z-index: -1;
-        }
+.hero::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+    z-index: -1;
+}
+
 
         .hero-content {
             max-width: 1000px;
@@ -187,12 +174,11 @@
             right: 0;
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
             z-index: 10;
-            flex-direction: row;
         }
 
         .role-card:hover .role-actions {
@@ -202,29 +188,27 @@
         }
 
         .role-button {
-            background-color: var(--primary-color); /* Green color for login button */
+            background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 8px 14px;
+            padding: 8px 15px;
             border-radius: 4px;
             cursor: pointer;
             font-weight: 600;
             transition: background-color 0.3s ease;
-            font-size: 0.9rem;
-            white-space: nowrap;
         }
 
         .role-button.signup {
-            background-color: var(--primary-color); /* Green color for signup button */
-            color: white;
+            background-color: var(--accent-color);
+            color: var(--dark-color);
         }
 
         .role-button:hover {
-            background-color: var(--secondary-color); /* Darker green on hover */
+            background-color: var(--secondary-color);
         }
 
         .role-button.signup:hover {
-            background-color: var(--secondary-color); /* Darker green on hover for signup */
+            background-color: #e0a800;
         }
 
         .role-icon {
@@ -242,6 +226,24 @@
             font-size: 0.9rem;
             margin-bottom: 0;
             color: var(--text-color);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--dark-color);
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         /* Features Section */
@@ -306,7 +308,7 @@
             color: var(--secondary-color);
         }
 
-        /* Modal Styles */
+        /* Forms */
         .modal {
             display: none;
             position: fixed;
@@ -317,268 +319,111 @@
             background-color: rgba(0, 0, 0, 0.7);
             z-index: 2000;
             overflow: auto;
-            display: flex;
-            justify-content: center;
             align-items: center;
-            padding: 20px;
+            justify-content: center;
         }
 
         .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 95%;
+            max-width: 400px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            animation: modalOpen 0.4s ease-out;
+        }
+
+        @keyframes modalOpen {
+            from {
+                opacity: 0;
+                transform: translateY(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .close-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            color: #fff;
+            top: 15px;
+            right: 15px;
+            font-size: 22px;
+            color: #777;
             cursor: pointer;
-            background: rgba(0, 0, 0, 0.5);
+            background: none;
             border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
-            z-index: 1001;
+            transition: color 0.3s ease;
         }
 
         .close-btn:hover {
-            background: var(--primary-color);
-            color: white;
-            transform: scale(1.1);
+            color: var(--dark-color);
         }
 
-        /* Login/Signup Animation Styles */
-        * {
-            font-family: "Poppins", sans-serif;
-        }
-
-        @property --a {
-            syntax: "<angle>";
-            inherits: false;
-            initial-value: 0deg;
-        }
-
-        .box {
-            position: relative;
-            width: 420px;
-            height: 220px;
-            background: repeating-conic-gradient(
-                from var(--a),
-                var(--primary-color) 0%, /* Green #4CAF50 */
-                var(--primary-color) 5%,
-                transparent 5%,
-                transparent 40%,
-                var(--primary-color) 50%
-            );
-            filter: drop-shadow(0 10px 30px rgba(76, 175, 80, 0.4));
-            border-radius: 24px;
-            animation: rotating 4s linear infinite;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.5s ease;
-        }
-
-        @keyframes rotating {
-            0% {
-                --a: 0deg;
-            }
-            100% {
-                --a: 360deg;
-            }
-        }
-
-        .box::before {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: repeating-conic-gradient(
-                from var(--a),
-                #A5D6A7 0%, /* Light green */
-                #A5D6A7 5%,
-                transparent 5%,
-                transparent 40%,
-                #A5D6A7 50%
-            );
-            filter: drop-shadow(0 10px 30px rgba(165, 214, 167, 0.4));
-            border-radius: 24px;
-            animation: rotating 4s linear infinite;
-            animation-delay: -1s;
-        }
-
-        .box::after {
-            content: "";
-            position: absolute;
-            inset: 6px;
-            background: linear-gradient(135deg, #E8F5E9, var(--light-color)); /* Light green to white */
-            border-radius: 18px;
-            border: 4px solid #C8E6C9; /* Subtle green border */
-            box-shadow: inset 0 0 10px rgba(76, 175, 80, 0.1);
-        }
-
-        .box:hover {
-            width: 480px;
-            height: 520px;
-        }
-
-        .box:hover .login {
-            inset: 30px;
-        }
-
-        .box:hover .loginBx {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .login {
-            position: absolute;
-            inset: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.95);
-            color: var(--text-color);
-            z-index: 1000;
-            box-shadow: 0 8px 32px rgba(76, 175, 80, 0.2);
-            border: 1px solid rgba(76, 175, 80, 0.3);
-            transition: all 0.5s ease;
-            overflow: hidden;
-        }
-
-        .loginBx {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            gap: 25px;
-            width: 80%;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: transform 0.5s ease, opacity 0.5s ease;
-        }
-
-        h2 {
-            font-family: "Poppins", sans-serif;
-            font-size: 1.8rem;
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 0.1em;
+        .form-title {
+            text-align: center;
+            margin-bottom: 25px;
             color: var(--primary-color);
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 1.6rem;
         }
 
-        h2 i {
-            color: var(--secondary-color);
-            font-style: italic;
-            text-shadow: 0 0 8px rgba(56, 142, 60, 0.5);
+        .form-group {
+            margin-bottom: 20px;
         }
 
-        input, textarea {
-            width: 100%;
-            padding: 12px 20px;
-            outline: none;
-            border: 2px solid rgba(76, 175, 80, 0.3);
-            font-size: 1em;
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
             color: var(--text-color);
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50px;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            resize: none;
+            font-weight: 500;
         }
 
-        input:focus, textarea:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
-        }
-
-        input::placeholder, textarea::placeholder {
-            color: #888;
-            font-style: italic;
-        }
-
-        input[type="submit"] {
-            background: var(--primary-color);
-            border: none;
-            font-weight: 600;
-            color: white;
-            cursor: pointer;
-            padding: 12px 30px;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            transform: scale(1);
-        }
-
-        input[type="submit"]:hover {
-            background: var(--secondary-color);
-            box-shadow: 0 0 12px rgba(76, 175, 80, 0.6);
-            transform: scale(1.05);
-        }
-
-        .group {
+        .form-control {
             width: 100%;
-            display: flex;
-            justify-content: space-between;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .form-button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
             font-size: 0.9rem;
         }
 
-        .group a {
-            color: var(--text-color);
+        .form-footer a {
+            color: var(--primary-color);
             text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .group a:hover {
-            color: var(--primary-color);
-        }
-
-        .group a:nth-child(2) {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        .box:hover {
-            height: 720px;
-        }
-
-        .login {
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary-color) #f1f1f1;
-        }
-
-        /* Password toggle button */
-        .toggle-btn {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--primary-color);
-            font-size: 1.2em;
-            transition: color 0.3s ease;
-        }
-
-        .toggle-btn:hover {
-            color: var(--secondary-color);
+            font-weight: 500;
         }
 
         /* Footer */
         footer {
-            flex-shrink: 0;
             background-color: var(--dark-color);
             color: white;
             padding: 40px 0 20px;
@@ -634,7 +479,7 @@
             .hamburger {
                 display: block;
             }
-
+            
             .nav-links {
                 position: fixed;
                 top: 70px;
@@ -647,65 +492,51 @@
                 box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
                 padding: 20px 0;
             }
-
+            
             .nav-links.active {
                 left: 0;
             }
-
+            
             .nav-links a {
                 margin: 15px 0;
             }
-
+            
             .hero h2 {
                 font-size: 2rem;
             }
-
+            
             .hero p {
                 font-size: 1rem;
             }
-
+            
             .feature-card {
                 padding: 20px;
             }
-
+            
             .user-roles {
                 gap: 15px;
             }
-
+            
             .role-card {
                 width: 150px;
                 padding: 15px;
             }
-
+            
             .role-icon {
                 font-size: 32px;
             }
-
+            
             .role-card h3 {
                 font-size: 1.2rem;
             }
 
             .role-actions {
-                bottom: -60px;
-                gap: 8px;
-                flex-direction: row;
+                flex-direction: column;
+                bottom: -80px;
             }
-
+            
             .role-card:hover .role-actions {
-                bottom: -50px;
-            }
-
-            .role-button {
-                padding: 6px 10px;
-                font-size: 0.8rem;
-            }
-
-            .box {
-                width: 90vw;
-            }
-
-            .box:hover {
-                height: 750px;
+                bottom: -80px;
             }
         }
 
@@ -713,46 +544,18 @@
             .logo h1 {
                 font-size: 20px;
             }
-
+            
             .hero h2 {
                 font-size: 1.8rem;
             }
-
+            
+            .cta-button {
+                padding: 10px 25px;
+                font-size: 1rem;
+            }
+            
             .section-title h3 {
                 font-size: 1.8rem;
-            }
-
-            .role-card {
-                width: 130px;
-                padding: 10px;
-            }
-
-            .role-actions {
-                flex-direction: row;
-                gap: 5px;
-            }
-
-            .role-button {
-                padding: 5px 8px;
-                font-size: 0.7rem;
-            }
-
-            .box {
-                width: 95%;
-            }
-
-            .box:hover {
-                width: 95%;
-                height: 680px;
-            }
-
-            h2 {
-                font-size: 1.5rem;
-            }
-
-            input, textarea {
-                padding: 10px 15px;
-                font-size: 0.9em;
             }
         }
     </style>
@@ -769,262 +572,299 @@
                 
                 <button class="hamburger" id="hamburger">☰</button>
                 
-                <div class="nav-links" id="navLinks">
-                    <a href="{{ url_for('home') }}">Home</a>
+               <div class="nav-links" id="navLinks">
+  <a href="{{ url_for('home') }}">Home</a>
                     <a href="{{ url_for('about') }}">About</a>
                     <a href="{{ url_for('services') }}">Services</a>
                     <a href="{{ url_for('contact') }}">Contact</a>
-                </div>
+</div>
+
             </nav>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <h2>Bridging Farmers and Markets, Seamlessly</h2>
-                    <p>KrishiSetu provides farmers with access to agricultural knowledge, market prices, weather forecasts, and connects them to buyers and suppliers.</p>
-                    
-                    <div class="user-roles">
-                        <div class="role-card" id="farmerRole">
-                            <div class="role-icon">👨‍🌾</div>
-                            <h3>Farmer</h3>
-                            <p>Sell crops and buy resources from sellers</p>
-                            <div class="role-actions">
-                                <button class="role-button login" data-role="farmer">Login</button>
-                                <button class="role-button signup" data-role="farmer">Sign Up</button>
-                            </div>
-                        </div>
-                        <div class="role-card" id="sellerRole">
-                            <div class="role-icon">🏪</div>
-                            <h3>Seller</h3>
-                            <p>Sell resources to farmers</p>
-                            <div class="role-actions">
-                                <button class="role-button login" data-role="seller">Login</button>
-                                <button class="role-button signup" data-role="seller">Sign Up</button>
-                            </div>
-                        </div>
-                        <div class="role-card" id="userRole">
-                            <div class="role-icon">👤</div>
-                            <h3>User</h3>
-                            <p>Browse and purchase products</p>
-                            <div class="role-actions">
-                                <button class="role-button login" data-role="user">Login</button>
-                                <button class="role-button signup" data-role="user">Sign Up</button>
-                            </div>
-                        </div>
-                        <div class="role-card" id="adminRole">
-                            <div class="role-icon">⚙️</div>
-                            <h3>Admin</h3>
-                            <p>Manage platform operations</p>
-                            <div class="role-actions">
-                                <button class="role-button login" data-role="admin">Login</button>
-                            </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Bridging Farmers and Markets, Seamlessly</h2>
+                <p>KrishiSetu provides farmers with access to agricultural knowledge, market prices, weather forecasts, and connects them to buyers and suppliers.</p>
+                
+                <div class="user-roles">
+                    <div class="role-card" id="farmerRole">
+                        <div class="role-icon">👨‍🌾</div>
+                        <h3>Farmer</h3>
+                        <p>Sell crops and buy resources from sellers</p>
+                        <div class="role-actions">
+                            <button class="role-button login" data-role="farmer">Login</button>
+                            <button class="role-button signup" data-role="farmer">Sign Up</button>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features Section -->
-        <section class="features">
-            <div class="container">
-                <div class="section-title">
-                    <h3>Our Features</h3>
-                </div>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">🌦️</div>
-                        <h4>Weather Forecasts</h4>
-                        <p>Get accurate weather predictions and alerts to plan your farming activities effectively.</p>
+                    <div class="role-card" id="sellerRole">
+                        <div class="role-icon">🏪</div>
+                        <h3>Seller</h3>
+                        <p>Sell resources to farmers</p>
+                        <div class="role-actions">
+                            <button class="role-button login" data-role="seller">Login</button>
+                            <button class="role-button signup" data-role="seller">Sign Up</button>
+                        </div>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📊</div>
-                        <h4>Market Prices</h4>
-                        <p>Access real-time market prices for various crops to make informed selling decisions.</p>
+                    <div class="role-card" id="userRole">
+                        <div class="role-icon">👤</div>
+                        <h3>User</h3>
+                        <p>Browse and purchase products</p>
+                        <div class="role-actions">
+                            <button class="role-button login" data-role="user">Login</button>
+                            <button class="role-button signup" data-role="user">Sign Up</button>
+                        </div>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🤝</div>
-                        <h4>Connect with Buyers</h4>
-                        <p>Directly connect with buyers and eliminate middlemen to maximize your profits.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Farmer Login Modal -->
-        <div class="modal" id="farmerLoginModal">
-            <div class="modal-content">
-                <button class="close-btn" id="closeFarmerLoginBtn">×</button>
-                <div class="box">
-                    <div class="login">
-                        <div class="loginBx">
-                            <h2>Farmer <i>Login</i></h2>
-                            <form id="farmerLoginForm">
-                                <input type="email" id="farmerLoginEmail" placeholder="Enter your email" required>
-                                <input type="password" id="farmerLoginPassword" placeholder="Enter your password" required>
-                                <input type="submit" value="Login">
-                                <div class="group">
-                                    <a href="#" class="switchToSignup" data-role="farmer">Don't have an account? Sign up</a>
-                                </div>
-                            </form>
+                    <div class="role-card" id="adminRole">
+                        <div class="role-icon">⚙️</div>
+                        <h3>Admin</h3>
+                        <p>Manage platform operations</p>
+                        <div class="role-actions">
+                            <button class="role-button login" data-role="admin">Login</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Farmer Signup Modal -->
-        <div class="modal" id="farmerSignupModal">
-            <div class="modal-content">
-                <button class="close-btn" id="closeFarmerSignupBtn">×</button>
-                <div class="box">
-                    <div class="login">
-                        <div class="loginBx">
-                            <h2>Create Farmer <i>Account</i></h2>
-                            <form id="farmerSignupForm">
-                                <input type="text" id="farmerSignupName" placeholder="Enter your full name" required>
-                                <input type="tel" id="farmerSignupPhone" placeholder="Enter your phone number" required>
-                                <input type="email" id="farmerSignupEmail" placeholder="Enter your email" required>
-                                <input type="number" id="farmerSignupLand" placeholder="Enter land size (acres)" required>
-                                <input type="text" id="farmerSignupVillage" placeholder="Enter village name" required>
-                                <input type="text" id="farmerSignupState" placeholder="Enter state name" required>
-                                <input type="number" id="farmerSignupPincode" placeholder="Enter pincode" required>
-                                <input type="password" id="farmerSignupPassword" placeholder="Create a password" required>
-                                <input type="password" id="farmerSignupConfirmPassword" placeholder="Confirm your password" required>
-                                <input type="submit" value="Sign Up">
-                                <div class="group">
-                                    <a href="#" class="switchToLogin" data-role="farmer">Already have an account? Login</a>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h3>Our Features</h3>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌦️</div>
+                    <h4>Weather Forecasts</h4>
+                    <p>Get accurate weather predictions and alerts to plan your farming activities effectively.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h4>Market Prices</h4>
+                    <p>Access real-time market prices for various crops to make informed selling decisions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h4>Connect with Buyers</h4>
+                    <p>Directly connect with buyers and eliminate middlemen to maximize your profits.</p>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Seller Login Modal -->
-        <div class="modal" id="sellerLoginModal">
-            <div class="modal-content">
-                <button class="close-btn" id="closeSellerLoginBtn">×</button>
-                <div class="box">
-                    <div class="login">
-                        <div class="loginBx">
-                            <h2>Seller <i>Login</i></h2>
-                            <form id="sellerLoginForm">
-                                <input type="email" id="sellerLoginEmail" placeholder="Enter your email" required>
-                                <input type="password" id="sellerLoginPassword" placeholder="Enter your password" required>
-                                <input type="submit" value="Login">
-                                <div class="group">
-                                    <a href="#" class="switchToSignup" data-role="seller">Don't have an account? Sign up</a>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+    <!-- Farmer Login Modal -->
+    <div class="modal" id="farmerLoginModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeFarmerLoginBtn">&times;</button>
+            <h2 class="form-title">Farmer Login</h2>
+            <form id="farmerLoginForm">
+                <div class="form-group">
+                    <label for="farmerLoginEmail">Email</label>
+                    <input type="email" id="farmerLoginEmail" class="form-control" placeholder="Enter your email" required>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="farmerLoginPassword">Password</label>
+                    <input type="password" id="farmerLoginPassword" class="form-control" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="form-button">Login</button>
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="#" class="switchToSignup" data-role="farmer">Sign up</a></p>
+                    <p><a href="#">Forgot password?</a></p>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <!-- Seller Signup Modal -->
-        <div class="modal" id="sellerSignupModal">
-            <div class="modal-content">
-                <button class="close-btn" id="closeSellerSignupBtn">×</button>
-                <div class="box">
-                    <div class="login">
-                        <div class="loginBx">
-                            <h2>Create Seller <i>Account</i></h2>
-                            <form id="sellerSignupForm">
-                                <input type="text" id="sellerSignupName" placeholder="Enter business name" required>
-                                <input type="tel" id="sellerSignupPhone" placeholder="Enter your phone number" required>
-                                <input type="email" id="sellerSignupEmail" placeholder="Enter your email" required>
-                                <input type="text" id="sellerSignupGST" placeholder="Enter GST number" required>
-                                <input type="text" id="sellerSignupVillage" placeholder="Enter village name" required>
-                                <input type="text" id="sellerSignupState" placeholder="Enter state name" required>
-                                <input type="number" id="sellerSignupPincode" placeholder="Enter pincode" required>
-                                <input type="password" id="sellerSignupPassword" placeholder="Create a password" required>
-                                <input type="password" id="sellerSignupConfirmPassword" placeholder="Confirm your password" required>
-                                <input type="submit" value="Sign Up">
-                                <div class="group">
-                                    <a href="#" class="switchToLogin" data-role="seller">Already have an account? Login</a>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+    <!-- Farmer Signup Modal -->
+    <div class="modal" id="farmerSignupModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeFarmerSignupBtn">&times;</button>
+            <h2 class="form-title">Create Farmer Account</h2>
+            <form id="farmerSignupForm">
+                <div class="form-group">
+                    <label for="farmerSignupName">Full Name</label>
+                    <input type="text" id="farmerSignupName" class="form-control" placeholder="Enter your full name" required>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="farmerSignupPhone">Phone Number</label>
+                    <input type="tel" id="farmerSignupPhone" class="form-control" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="farmerSignupEmail">Email</label>
+                    <input type="email" id="farmerSignupEmail" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="farmerSignupLand">Land Size (Acres)</label>
+                    <input type="number" id="farmerSignupLand" class="form-control" placeholder="Enter land size" required>
+                </div>
+                <div class="form-group">
+                    <label for="farmerSignupPassword">Password</label>
+                    <input type="password" id="farmerSignupPassword" class="form-control" placeholder="Create a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="farmerSignupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="farmerSignupConfirmPassword" class="form-control" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="form-button">Sign Up</button>
+                <div class="form-footer">
+                    <p>Already have an account? <a href="#" class="switchToLogin" data-role="farmer">Login</a></p>
+                </div>
+            </form>
         </div>
+    </div>
+    
+    <!-- Seller Login Modal -->
+    <div class="modal" id="sellerLoginModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeSellerLoginBtn">&times;</button>
+            <h2 class="form-title">Seller Login</h2>
+            <form id="sellerLoginForm">
+                <div class="form-group">
+                    <label for="sellerLoginEmail">Email</label>
+                    <input type="email" id="sellerLoginEmail" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="sellerLoginPassword">Password</label>
+                    <input type="password" id="sellerLoginPassword" class="form-control" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="form-button">Login</button>
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="#" class="switchToSignup" data-role="seller">Sign up</a></p>
+                    <p><a href="#">Forgot password?</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        <!-- User Login Modal -->
-        <div class="modal" id="userLoginModal">
-            <div class="modal-content">
-                <button class="close-btn" id="closeUserLoginBtn">×</button>
-                <div class="box">
-                    <div class="login">
-                        <div class="loginBx">
-                            <h2>User <i>Login</i></h2>
-                            <form id="userLoginForm">
-                                <input type="email" id="userLoginEmail" placeholder="Enter your email" required>
-                                <input type="password" id="userLoginPassword" placeholder="Enter your password" required>
-                                <input type="submit" value="Login">
-                                <div class="group">
-                                    <a href="#" class="switchToSignup" data-role="user">Don't have an account? Sign up</a>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+    <!-- Seller Signup Modal -->
+    <div class="modal" id="sellerSignupModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeSellerSignupBtn">&times;</button>
+            <h2 class="form-title">Create Seller Account</h2>
+            <form id="sellerSignupForm">
+                <div class="form-group">
+                    <label for="sellerSignupName">Business Name</label>
+                    <input type="text" id="sellerSignupName" class="form-control" placeholder="Enter business name" required>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="sellerSignupPhone">Phone Number</label>
+                    <input type="tel" id="sellerSignupPhone" class="form-control" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="sellerSignupEmail">Email</label>
+                    <input type="email" id="sellerSignupEmail" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="sellerSignupGST">GST Number</label>
+                    <input type="text" id="sellerSignupGST" class="form-control" placeholder="Enter GST number" required>
+                </div>
+                <div class="form-group">
+                    <label for="sellerSignupPassword">Password</label>
+                    <input type="password" id="sellerSignupPassword" class="form-control" placeholder="Create a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="sellerSignupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="sellerSignupConfirmPassword" class="form-control" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="form-button">Sign Up</button>
+                <div class="form-footer">
+                    <p>Already have an account? <a href="#" class="switchToLogin" data-role="seller">Login</a></p>
+                </div>
+            </form>
         </div>
+    </div>
+    
+    <!-- User Login Modal -->
+    <div class="modal" id="userLoginModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeUserLoginBtn">&times;</button>
+            <h2 class="form-title">User Login</h2>
+            <form id="userLoginForm">
+                <div class="form-group">
+                    <label for="userLoginEmail">Email</label>
+                    <input type="email" id="userLoginEmail" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="userLoginPassword">Password</label>
+                    <input type="password" id="userLoginPassword" class="form-control" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="form-button">Login</button>
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="#" class="switchToSignup" data-role="user">Sign up</a></p>
+                    <p><a href="#">Forgot password?</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        <!-- User Signup Modal -->
-        <div class="modal" id="userSignupModal">
-            <div class="modal-content">
-                <button class="close-btn" id="closeUserSignupBtn">×</button>
-                <div class="box">
-                    <div class="login">
-                        <div class="loginBx">
-                            <h2>Create User <i>Account</i></h2>
-                            <form id="userSignupForm">
-                                <input type="text" id="userSignupName" placeholder="Enter your full name" required>
-                                <input type="tel" id="userSignupPhone" placeholder="Enter your phone number" required>
-                                <input type="email" id="userSignupEmail" placeholder="Enter your email" required>
-                                <textarea id="userSignupAddress" placeholder="Enter your address" required></textarea>
-                                <input type="password" id="userSignupPassword" placeholder="Create a password" required>
-                                <input type="password" id="userSignupConfirmPassword" placeholder="Confirm your password" required>
-                                <input type="submit" value="Sign Up">
-                                <div class="group">
-                                    <a href="#" class="switchToLogin" data-role="user">Already have an account? Login</a>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+    <!-- User Signup Modal -->
+    <div class="modal" id="userSignupModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeUserSignupBtn">&times;</button>
+            <h2 class="form-title">Create User Account</h2>
+            <form id="userSignupForm">
+                <div class="form-group">
+                    <label for="userSignupName">Full Name</label>
+                    <input type="text" id="userSignupName" class="form-control" placeholder="Enter your full name" required>
                 </div>
-            </div>
-        </div>
-
-        <!-- Admin Login Modal -->
-        <div class="modal" id="adminLoginModal">
-            <div class="modal-content">
-                <button class="close-btn" id="closeAdminLoginBtn">×</button>
-                <div class="box">
-                    <div class="login">
-                        <div class="loginBx">
-                            <h2>Admin <i>Login</i></h2>
-                            <form id="adminLoginForm">
-                                <input type="email" id="adminLoginEmail" placeholder="Enter admin email" required>
-                                <input type="password" id="adminLoginPassword" placeholder="Enter admin password" required>
-                                <input type="password" id="adminLoginCode" placeholder="Enter admin code" required>
-                                <input type="submit" value="Login">
-                            </form>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label for="userSignupPhone">Phone Number</label>
+                    <input type="tel" id="userSignupPhone" class="form-control" placeholder="Enter your phone number" required>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="userSignupEmail">Email</label>
+                    <input type="email" id="userSignupEmail" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="userSignupAddress">Address</label>
+                    <textarea id="userSignupAddress" class="form-control" placeholder="Enter your address" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="userSignupPassword">Password</label>
+                    <input type="password" id="userSignupPassword" class="form-control" placeholder="Create a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="userSignupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="userSignupConfirmPassword" class="form-control" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="form-button">Sign Up</button>
+                <div class="form-footer">
+                    <p>Already have an account? <a href="#" class="switchToLogin" data-role="user">Login</a></p>
+                </div>
+            </form>
         </div>
-    </main>
+    </div>
+    
+    <!-- Admin Login Modal -->
+    <div class="modal" id="adminLoginModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeAdminLoginBtn">&times;</button>
+            <h2 class="form-title">Admin Login</h2>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label for="adminLoginEmail">Email</label>
+                    <input type="email" id="adminLoginEmail" class="form-control" placeholder="Enter admin email" required>
+                </div>
+                <div class="form-group">
+                    <label for="adminLoginPassword">Password</label>
+                    <input type="password" id="adminLoginPassword" class="form-control" placeholder="Enter admin password" required>
+                </div>
+                <div class="form-group">
+                    <label for="adminLoginCode">Admin Code</label>
+                    <input type="password" id="adminLoginCode" class="form-control" placeholder="Enter admin code" required>
+                </div>
+                <button type="submit" class="form-button">Login</button>
+                <div class="form-footer">
+                    <p><a href="#">Forgot password?</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -1067,7 +907,7 @@
                 </div>
             </div>
             <div class="copyright">
-                <p>© 2025 KrishiSetu. All rights reserved.</p>
+                <p>&copy; 2025 KrishiSetu. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -1100,26 +940,24 @@
             }
         };
 
+        // Open Modal Function
         function openModal(modalElement) {
             if (modalElement) {
-                console.log('Opening modal:', modalElement.id);
                 modalElement.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-            } else {
-                console.error('Modal element not found');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
             }
         }
 
+        // Close Modal Function
         function closeModal(modalElement) {
             if (modalElement) {
-                console.log('Closing modal:', modalElement.id);
                 modalElement.style.display = 'none';
-                document.body.style.overflow = '';
+                document.body.style.overflow = ''; // Enable scrolling again
             }
         }
 
+        // Close all modals
         function closeAllModals() {
-            console.log('Closing all modals');
             for (const role in modals) {
                 for (const type in modals[role]) {
                     closeModal(modals[role][type]);
@@ -1127,55 +965,40 @@
             }
         }
 
-        window.addEventListener('load', () => {
-            console.log('Page loaded, ensuring all modals are closed');
-            closeAllModals();
-        });
-
+        // Add event listeners for login buttons
         document.querySelectorAll('.role-button.login').forEach(button => {
             button.addEventListener('click', () => {
                 const role = button.dataset.role;
-                console.log('Login button clicked for role:', role);
-                if (modals[role] && modals[role].login) {
-                    closeAllModals();
-                    openModal(modals[role].login);
-                } else {
-                    console.error(`Login modal not found for role: ${role}`);
-                }
+                closeAllModals();
+                openModal(modals[role].login);
             });
         });
 
+        // Add event listeners for signup buttons
         document.querySelectorAll('.role-button.signup').forEach(button => {
             button.addEventListener('click', () => {
                 const role = button.dataset.role;
-                console.log('Signup button clicked for role:', role);
-                if (modals[role] && modals[role].signup) {
+                if (modals[role].signup) {
                     closeAllModals();
                     openModal(modals[role].signup);
-                } else {
-                    console.error(`Signup modal not found for role: ${role}`);
                 }
             });
         });
 
+        // Add event listeners for close buttons
         document.querySelectorAll('.close-btn').forEach(button => {
             button.addEventListener('click', () => {
-                console.log('Close button clicked');
                 closeAllModals();
             });
         });
 
+        // Switch between login and signup forms
         document.querySelectorAll('.switchToLogin').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const role = link.dataset.role;
-                console.log('Switching to login for role:', role);
-                if (modals[role] && modals[role].login) {
-                    closeAllModals();
-                    openModal(modals[role].login);
-                } else {
-                    console.error(`Login modal not found for role: ${role}`);
-                }
+                closeAllModals();
+                openModal(modals[role].login);
             });
         });
 
@@ -1183,245 +1006,106 @@
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const role = link.dataset.role;
-                console.log('Switching to signup for role:', role);
-                if (modals[role] && modals[role].signup) {
-                    closeAllModals();
-                    openModal(modals[role].signup);
-                } else {
-                    console.error(`Signup modal not found for role: ${role}`);
-                }
+                closeAllModals();
+                openModal(modals[role].signup);
             });
         });
 
+        // Close modal when clicking outside the modal content
         window.addEventListener('click', (e) => {
             for (const role in modals) {
                 for (const type in modals[role]) {
                     if (e.target === modals[role][type]) {
-                        console.log('Clicked outside modal:', modals[role][type].id);
                         closeModal(modals[role][type]);
                     }
                 }
             }
         });
 
-        // Form Submission Handlers
-        document.getElementById("farmerLoginForm").addEventListener("submit", async function(e) {
+        // Form submission handling
+        const forms = {
+            farmerLoginForm: document.getElementById('farmerLoginForm'),
+            farmerSignupForm: document.getElementById('farmerSignupForm'),
+            sellerLoginForm: document.getElementById('sellerLoginForm'),
+            sellerSignupForm: document.getElementById('sellerSignupForm'),
+            userLoginForm: document.getElementById('userLoginForm'),
+            userSignupForm: document.getElementById('userSignupForm'),
+            adminLoginForm: document.getElementById('adminLoginForm')
+        };
+
+        // Function to handle form submission
+        function handleFormSubmit(e, formType, role) {
             e.preventDefault();
-            console.log('Farmer login form submitted');
-            const data = {
-                email: document.getElementById("farmerLoginEmail").value,
-                password: document.getElementById("farmerLoginPassword").value
-            };
-            try {
-                const res = await fetch('/login/farmer', {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-                const result = await res.json();
-                if (result.status === "success") {
-                    window.location.href = "/farmer";
-                } else {
-                    alert(result.message);
+            
+            // Example validation for password match in signup forms
+            if (formType === 'signup') {
+                const password = document.getElementById(`${role}SignupPassword`).value;
+                const confirmPassword = document.getElementById(`${role}SignupConfirmPassword`).value;
+                
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match!');
+                    return;
                 }
-            } catch (error) {
-                console.error('Error submitting farmer login:', error);
-                alert('An error occurred. Please try again.');
             }
-        });
+            
+            // Get form data
+            const formData = new FormData(e.target);
+            const formDataObj = {};
+            
+            formData.forEach((value, key) => {
+                formDataObj[key] = value;
+            });
+            
+            // Here you would typically send the data to your server
+            console.log(`${role} ${formType} form submitted:`, formDataObj);
+            
+            // For demonstration purposes, show success message
+            alert(`${role.charAt(0).toUpperCase() + role.slice(1)} ${formType} successful!`);
+            
+            // Close the modal
+            closeAllModals();
+            
+            // Reset the form
+            e.target.reset();
+        }
 
-        document.getElementById("farmerSignupForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            console.log('Farmer signup form submitted');
-            const password = document.getElementById("farmerSignupPassword").value;
-            const confirmPassword = document.getElementById("farmerSignupConfirmPassword").value;
-            if (password !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
-            const data = {
-                name: document.getElementById("farmerSignupName").value,
-                phone: document.getElementById("farmerSignupPhone").value,
-                email: document.getElementById("farmerSignupEmail").value,
-                land: document.getElementById("farmerSignupLand").value,
-                village: document.getElementById("farmerSignupVillage").value,
-                state: document.getElementById("farmerSignupState").value,
-                pincode: document.getElementById("farmerSignupPincode").value,
-                password: password
-            };
-            try {
-                const res = await fetch('/signup/farmer', {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-                const result = await res.json();
-                alert(result.message);
-                document.getElementById("farmerSignupForm").reset();
-                document.getElementById("farmerSignupModal").style.display = 'none';
-                document.body.style.overflow = '';
-            } catch (error) {
-                console.error('Error submitting farmer signup:', error);
-                alert('An error occurred. Please try again.');
-            }
-        });
+        // Add event listeners for form submissions
+        if (forms.farmerLoginForm) {
+            forms.farmerLoginForm.addEventListener('submit', (e) => handleFormSubmit(e, 'login', 'farmer'));
+        }
+        if (forms.farmerSignupForm) {
+            forms.farmerSignupForm.addEventListener('submit', (e) => handleFormSubmit(e, 'signup', 'farmer'));
+        }
+        if (forms.sellerLoginForm) {
+            forms.sellerLoginForm.addEventListener('submit', (e) => handleFormSubmit(e, 'login', 'seller'));
+        }
+        if (forms.sellerSignupForm) {
+            forms.sellerSignupForm.addEventListener('submit', (e) => handleFormSubmit(e, 'signup', 'seller'));
+        }
+        if (forms.userLoginForm) {
+            forms.userLoginForm.addEventListener('submit', (e) => handleFormSubmit(e, 'login', 'user'));
+        }
+        if (forms.userSignupForm) {
+            forms.userSignupForm.addEventListener('submit', (e) => handleFormSubmit(e, 'signup', 'user'));
+        }
+        if (forms.adminLoginForm) {
+            forms.adminLoginForm.addEventListener('submit', (e) => handleFormSubmit(e, 'login', 'admin'));
+        }
 
-        document.getElementById("sellerLoginForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            console.log('Seller login form submitted');
-            const data = {
-                email: document.getElementById("sellerLoginEmail").value,
-                password: document.getElementById("sellerLoginPassword").value
-            };
-            try {
-                const res = await fetch('/login/seller', {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-                const result = await res.json();
-                if (result.status === "success") {
-                    window.location.href = "/seller";
-                } else {
-                    alert(result.message);
-                }
-            } catch (error) {
-                console.error('Error submitting seller login:', error);
-                alert('An error occurred. Please try again.');
-            }
-        });
-
-        document.getElementById("sellerSignupForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            console.log('Seller signup form submitted');
-            const password = document.getElementById("sellerSignupPassword").value;
-            const confirmPassword = document.getElementById("sellerSignupConfirmPassword").value;
-            if (password !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
-            const data = {
-                name: document.getElementById("sellerSignupName").value,
-                phone: document.getElementById("sellerSignupPhone").value,
-                email: document.getElementById("sellerSignupEmail").value,
-                gst: document.getElementById("sellerSignupGST").value,
-                village: document.getElementById("sellerSignupVillage").value,
-                state: document.getElementById("sellerSignupState").value,
-                pincode: document.getElementById("sellerSignupPincode").value,
-                password: password
-            };
-            try {
-                const res = await fetch('/signup/seller', {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-                const result = await res.json();
-                alert(result.message);
-                document.getElementById("sellerSignupForm").reset();
-                document.getElementById("sellerSignupModal").style.display = 'none';
-                document.body.style.overflow = '';
-            } catch (error) {
-                console.error('Error submitting seller signup:', error);
-                alert('An error occurred. Please try again.');
-            }
-        });
-
-        document.getElementById("userLoginForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            console.log('User login form submitted');
-            const data = {
-                email: document.getElementById("userLoginEmail").value,
-                password: document.getElementById("userLoginPassword").value
-            };
-            try {
-                const res = await fetch('/login/user', {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-                const result = await res.json();
-                if (result.status === "success") {
-                    window.location.href = "/user";
-                } else {
-                    alert(result.message);
-                }
-            } catch (error) {
-                console.error('Error submitting user login:', error);
-                alert('An error occurred. Please try again.');
-            }
-        });
-
-        document.getElementById("userSignupForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            console.log('User signup form submitted');
-            const password = document.getElementById("userSignupPassword").value;
-            const confirmPassword = document.getElementById("userSignupConfirmPassword").value;
-            if (password !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
-            const data = {
-                name: document.getElementById("userSignupName").value,
-                phone: document.getElementById("userSignupPhone").value,
-                email: document.getElementById("userSignupEmail").value,
-                address: document.getElementById("userSignupAddress").value,
-                password: password
-            };
-            try {
-                const res = await fetch('/signup/user', {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-                const result = await res.json();
-                alert(result.message);
-                document.getElementById("userSignupForm").reset();
-                document.getElementById("userSignupModal").style.display = 'none';
-                document.body.style.overflow = '';
-            } catch (error) {
-                console.error('Error submitting user signup:', error);
-                alert('An error occurred. Please try again.');
-            }
-        });
-
-        document.getElementById("adminLoginForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            console.log('Admin login form submitted');
-            const data = {
-                email: document.getElementById("adminLoginEmail").value,
-                password: document.getElementById("adminLoginPassword").value,
-                adminCode: document.getElementById("adminLoginCode").value
-            };
-            try {
-                const res = await fetch('/login/admin', {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-                const result = await res.json();
-                if (result.status === "success") {
-                    window.location.href = "/admin";
-                } else {
-                    alert(result.message);
-                }
-            } catch (error) {
-                console.error('Error submitting admin login:', error);
-                alert('An error occurred. Please try again.');
-            }
-        });
-
-        // Form Validations
+        // Password validation
         function validatePassword(password) {
+            // At least 8 characters, one uppercase, one lowercase, one number
             const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
             return regex.test(password);
         }
 
+        // Email validation
         function validateEmail(email) {
             const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return regex.test(email);
         }
 
+        // Add input validation for password fields
         document.querySelectorAll('input[type="password"]').forEach(input => {
             if (input.id.includes('Signup') && !input.id.includes('Confirm')) {
                 input.addEventListener('input', () => {
@@ -1435,6 +1119,7 @@
             }
         });
 
+        // Add input validation for email fields
         document.querySelectorAll('input[type="email"]').forEach(input => {
             input.addEventListener('input', () => {
                 const isValid = validateEmail(input.value);
@@ -1446,6 +1131,7 @@
             });
         });
 
+        // Add confirmation before form submission
         document.querySelectorAll('form').forEach(form => {
             form.addEventListener('submit', (e) => {
                 const formId = form.id;
@@ -1458,23 +1144,37 @@
             });
         });
 
-        // Password Toggle
+        // Add password visibility toggle
         function addPasswordToggle() {
             const passwordFields = document.querySelectorAll('input[type="password"]');
             
             passwordFields.forEach(field => {
+                // Create toggle button
                 const toggleBtn = document.createElement('button');
                 toggleBtn.type = 'button';
                 toggleBtn.innerText = '👁️';
-                toggleBtn.className = 'toggle-btn';
+                toggleBtn.style.position = 'absolute';
+                toggleBtn.style.right = '10px';
+                toggleBtn.style.top = '50%';
+                toggleBtn.style.transform = 'translateY(-50%)';
+                toggleBtn.style.background = 'none';
+                toggleBtn.style.border = 'none';
+                toggleBtn.style.cursor = 'pointer';
                 
+                // Wrap password field in a div for positioning
                 const wrapper = document.createElement('div');
                 wrapper.style.position = 'relative';
                 
+                // Insert wrapper before the password field
                 field.parentNode.insertBefore(wrapper, field);
+                
+                // Move password field into wrapper
                 wrapper.appendChild(field);
+                
+                // Add toggle button to wrapper
                 wrapper.appendChild(toggleBtn);
                 
+                // Add event listener to toggle button
                 toggleBtn.addEventListener('click', () => {
                     if (field.type === 'password') {
                         field.type = 'text';
@@ -1487,7 +1187,33 @@
             });
         }
 
+        // Call the function to add password toggles
         addPasswordToggle();
+
+        // Add role hover effects
+        document.querySelectorAll('.role-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px)';
+                card.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+                card.style.boxShadow = '';
+            });
+        });
+
+        // Add subtle animation to forms
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.style.boxShadow = '0 0 0 2px rgba(76, 175, 80, 0.2)';
+                input.style.transition = 'all 0.3s ease';
+            });
+            
+            input.addEventListener('blur', () => {
+                input.style.boxShadow = '';
+            });
+        });
     </script>
 </body>
 </html>
