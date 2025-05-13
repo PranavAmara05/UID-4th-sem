@@ -529,7 +529,7 @@
         .table-container {
             background-color: white;
             border-radius: 8px;
-            box stay-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             overflow: hidden;
             margin-bottom: 30px;
         }
@@ -1092,7 +1092,7 @@
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <img src="{{ url_for('static', filename='images/logo.jpeg') }}" alt="KrishiSetu Logo">
+                <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="KrishiSetu Logo">
                 <h2>KrishiSetu</h2>
             </div>
             <div class="sidebar-menu">
@@ -2340,14 +2340,7 @@
         });
     });
     
-    // Add functionality for the notification badge
-    const notificationIcon = document.createElement('div');
-    notificationIcon.className = 'notification-icon';
-    notificationIcon.innerHTML = '<i class="fas fa-bell"></i><span class="badge">3</span>';
-    
-    // Insert notification icon before admin profile
-    const adminProfile = document.querySelector('.admin-profile');
-    adminProfile.parentNode.insertBefore(notificationIcon, adminProfile);
+   
     
     // Modal Sample
     function createModal() {
