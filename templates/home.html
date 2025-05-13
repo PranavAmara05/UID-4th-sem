@@ -59,13 +59,14 @@
 
         .logo img {
             height: 35px;
-            margin-right: 10px; }
+            margin-right: 10px;
+        }
 
-.logo h1 {
-    color: var(--primary-color);
-    font-size: 36px;  
-    font-weight: 700;
-}
+        .logo h1 {
+            color: var(--primary-color);
+            font-size: 36px;
+            font-weight: 700;
+        }
 
         .nav-links {
             display: flex;
@@ -94,36 +95,39 @@
 
         /* Hero Section */
         .hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: white;
-    padding: 100px 0 60px;
-    z-index: 1;
-    overflow: hidden;
-}
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 100px 0 60px;
+            z-index: 1;
+            overflow: hidden;
+        }
 
-.hero::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: url("{{ url_for('static', filename='images/water.jpg') }}") no-repeat center center/cover;
-    opacity: 0.5; /* watermark effect */
-    z-index: -1;
-}
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("{{ url_for('static', filename='images/water.jpg') }}") no-repeat center center/cover;
+            opacity: 0.5;
+            z-index: -1;
+        }
 
-.hero::after {
-    content: "";
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
-    z-index: -1;
-}
-
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+            z-index: -1;
+        }
 
         .hero-content {
             max-width: 1000px;
@@ -310,7 +314,7 @@
 
         /* Forms */
         .modal {
-            display: none;
+            display: none; /* Removed !important to allow openModal to work */
             position: fixed;
             top: 0;
             left: 0;
@@ -319,8 +323,10 @@
             background-color: rgba(0, 0, 0, 0.7);
             z-index: 2000;
             overflow: auto;
+            display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
 
         .modal-content {
@@ -331,6 +337,8 @@
             padding: 30px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
             animation: modalOpen 0.4s ease-out;
         }
 
@@ -370,6 +378,7 @@
 
         .form-group {
             margin-bottom: 20px;
+            min-height: 70px;
         }
 
         .form-group label {
@@ -479,7 +488,7 @@
             .hamburger {
                 display: block;
             }
-            
+
             .nav-links {
                 position: fixed;
                 top: 70px;
@@ -492,40 +501,40 @@
                 box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
                 padding: 20px 0;
             }
-            
+
             .nav-links.active {
                 left: 0;
             }
-            
+
             .nav-links a {
                 margin: 15px 0;
             }
-            
+
             .hero h2 {
                 font-size: 2rem;
             }
-            
+
             .hero p {
                 font-size: 1rem;
             }
-            
+
             .feature-card {
                 padding: 20px;
             }
-            
+
             .user-roles {
                 gap: 15px;
             }
-            
+
             .role-card {
                 width: 150px;
                 padding: 15px;
             }
-            
+
             .role-icon {
                 font-size: 32px;
             }
-            
+
             .role-card h3 {
                 font-size: 1.2rem;
             }
@@ -534,9 +543,14 @@
                 flex-direction: column;
                 bottom: -80px;
             }
-            
+
             .role-card:hover .role-actions {
                 bottom: -80px;
+            }
+
+            .modal-content {
+                padding: 20px;
+                max-height: 85vh;
             }
         }
 
@@ -544,18 +558,24 @@
             .logo h1 {
                 font-size: 20px;
             }
-            
+
             .hero h2 {
                 font-size: 1.8rem;
             }
-            
+
             .cta-button {
                 padding: 10px 25px;
                 font-size: 1rem;
             }
-            
+
             .section-title h3 {
                 font-size: 1.8rem;
+            }
+
+            .modal-content {
+                width: 90%;
+                padding: 15px;
+                max-height: 80vh;
             }
         }
     </style>
@@ -572,13 +592,12 @@
                 
                 <button class="hamburger" id="hamburger">☰</button>
                 
-               <div class="nav-links" id="navLinks">
-  <a href="{{ url_for('home') }}">Home</a>
+                <div class="nav-links" id="navLinks">
+                    <a href="{{ url_for('home') }}">Home</a>
                     <a href="{{ url_for('about') }}">About</a>
                     <a href="{{ url_for('services') }}">Services</a>
                     <a href="{{ url_for('contact') }}">Contact</a>
-</div>
-
+                </div>
             </nav>
         </div>
     </header>
@@ -660,7 +679,7 @@
     <!-- Farmer Login Modal -->
     <div class="modal" id="farmerLoginModal">
         <div class="modal-content">
-            <button class="close-btn" id="closeFarmerLoginBtn">&times;</button>
+            <button class="close-btn" id="closeFarmerLoginBtn"></button>
             <h2 class="form-title">Farmer Login</h2>
             <form id="farmerLoginForm">
                 <div class="form-group">
@@ -674,16 +693,43 @@
                 <button type="submit" class="form-button">Login</button>
                 <div class="form-footer">
                     <p>Don't have an account? <a href="#" class="switchToSignup" data-role="farmer">Sign up</a></p>
-                    <p><a href="#">Forgot password?</a></p>
+                    
                 </div>
             </form>
         </div>
     </div>
 
+    <script>
+        document.getElementById("farmerLoginForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            console.log('Farmer login form submitted');
+            const data = {
+                email: document.getElementById("farmerLoginEmail").value,
+                password: document.getElementById("farmerLoginPassword").value
+            };
+            try {
+                const res = await fetch('/login/farmer', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                if (result.status === "success") {
+                    window.location.href = "/farmer";
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                console.error('Error submitting farmer login:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
+
     <!-- Farmer Signup Modal -->
     <div class="modal" id="farmerSignupModal">
         <div class="modal-content">
-            <button class="close-btn" id="closeFarmerSignupBtn">&times;</button>
+            <button class="close-btn" id="closeFarmerSignupBtn">×</button>
             <h2 class="form-title">Create Farmer Account</h2>
             <form id="farmerSignupForm">
                 <div class="form-group">
@@ -703,6 +749,18 @@
                     <input type="number" id="farmerSignupLand" class="form-control" placeholder="Enter land size" required>
                 </div>
                 <div class="form-group">
+                    <label for="farmerSignupVillage">Village Name</label>
+                    <input type="text" id="farmerSignupVillage" class="form-control" placeholder="Enter Village Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="farmerSignupState">State Name</label>
+                    <input type="text" id="farmerSignupState" class="form-control" placeholder="Enter State Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="farmerSignupPincode">Pincode</label>
+                    <input type="number" id="farmerSignupPincode" class="form-control" placeholder="Enter the PinCode" required>
+                </div>
+                <div class="form-group">
                     <label for="farmerSignupPassword">Password</label>
                     <input type="password" id="farmerSignupPassword" class="form-control" placeholder="Create a password" required>
                 </div>
@@ -717,11 +775,49 @@
             </form>
         </div>
     </div>
-    
+
+    <script>
+        document.getElementById("farmerSignupForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            console.log('Farmer signup form submitted');
+            const password = document.getElementById("farmerSignupPassword").value;
+            const confirmPassword = document.getElementById("farmerSignupConfirmPassword").value;
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            const data = {
+                name: document.getElementById("farmerSignupName").value,
+                phone: document.getElementById("farmerSignupPhone").value,
+                email: document.getElementById("farmerSignupEmail").value,
+                land: document.getElementById("farmerSignupLand").value,
+                village: document.getElementById("farmerSignupVillage").value,
+                state: document.getElementById("farmerSignupState").value,
+                pincode: document.getElementById("farmerSignupPincode").value,
+                password: password
+            };
+            try {
+                const res = await fetch('/signup/farmer', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                alert(result.message);
+                document.getElementById("farmerSignupForm").reset();
+                document.getElementById("farmerSignupModal").style.display = 'none';
+                document.body.style.overflow = '';
+            } catch (error) {
+                console.error('Error submitting farmer signup:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
+
     <!-- Seller Login Modal -->
     <div class="modal" id="sellerLoginModal">
         <div class="modal-content">
-            <button class="close-btn" id="closeSellerLoginBtn">&times;</button>
+            <button class="close-btn" id="closeSellerLoginBtn">×</button>
             <h2 class="form-title">Seller Login</h2>
             <form id="sellerLoginForm">
                 <div class="form-group">
@@ -735,16 +831,43 @@
                 <button type="submit" class="form-button">Login</button>
                 <div class="form-footer">
                     <p>Don't have an account? <a href="#" class="switchToSignup" data-role="seller">Sign up</a></p>
-                    <p><a href="#">Forgot password?</a></p>
+                    
                 </div>
             </form>
         </div>
     </div>
 
+    <script>
+        document.getElementById("sellerLoginForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            console.log('Seller login form submitted');
+            const data = {
+                email: document.getElementById("sellerLoginEmail").value,
+                password: document.getElementById("sellerLoginPassword").value
+            };
+            try {
+                const res = await fetch('/login/seller', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                if (result.status === "success") {
+                    window.location.href = "/seller";
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                console.error('Error submitting seller login:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
+
     <!-- Seller Signup Modal -->
     <div class="modal" id="sellerSignupModal">
         <div class="modal-content">
-            <button class="close-btn" id="closeSellerSignupBtn">&times;</button>
+            <button class="close-btn" id="closeSellerSignupBtn">×</button>
             <h2 class="form-title">Create Seller Account</h2>
             <form id="sellerSignupForm">
                 <div class="form-group">
@@ -764,6 +887,18 @@
                     <input type="text" id="sellerSignupGST" class="form-control" placeholder="Enter GST number" required>
                 </div>
                 <div class="form-group">
+                    <label for="sellerSignupVillage">Village Name</label>
+                    <input type="text" id="sellerSignupVillage" class="form-control" placeholder="Enter Village Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="sellerSignupState">State Name</label>
+                    <input type="text" id="sellerSignupState" class="form-control" placeholder="Enter State Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="sellerSignupPincode">Pincode</label>
+                    <input type="number" id="sellerSignupPincode" class="form-control" placeholder="Enter the PinCode" required>
+                </div>
+                <div class="form-group">
                     <label for="sellerSignupPassword">Password</label>
                     <input type="password" id="sellerSignupPassword" class="form-control" placeholder="Create a password" required>
                 </div>
@@ -778,11 +913,49 @@
             </form>
         </div>
     </div>
-    
+
+    <script>
+        document.getElementById("sellerSignupForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            console.log('Seller signup form submitted');
+            const password = document.getElementById("sellerSignupPassword").value;
+            const confirmPassword = document.getElementById("sellerSignupConfirmPassword").value;
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            const data = {
+                name: document.getElementById("sellerSignupName").value,
+                phone: document.getElementById("sellerSignupPhone").value,
+                email: document.getElementById("sellerSignupEmail").value,
+                gst: document.getElementById("sellerSignupGST").value,
+                village: document.getElementById("sellerSignupVillage").value,
+                state: document.getElementById("sellerSignupState").value,
+                pincode: document.getElementById("sellerSignupPincode").value,
+                password: password
+            };
+            try {
+                const res = await fetch('/signup/seller', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                alert(result.message);
+                document.getElementById("sellerSignupForm").reset();
+                document.getElementById("sellerSignupModal").style.display = 'none';
+                document.body.style.overflow = '';
+            } catch (error) {
+                console.error('Error submitting seller signup:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
+
     <!-- User Login Modal -->
     <div class="modal" id="userLoginModal">
         <div class="modal-content">
-            <button class="close-btn" id="closeUserLoginBtn">&times;</button>
+            <button class="close-btn" id="closeUserLoginBtn">×</button>
             <h2 class="form-title">User Login</h2>
             <form id="userLoginForm">
                 <div class="form-group">
@@ -796,16 +969,43 @@
                 <button type="submit" class="form-button">Login</button>
                 <div class="form-footer">
                     <p>Don't have an account? <a href="#" class="switchToSignup" data-role="user">Sign up</a></p>
-                    <p><a href="#">Forgot password?</a></p>
+                    
                 </div>
             </form>
         </div>
     </div>
 
+    <script>
+        document.getElementById("userLoginForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            console.log('User login form submitted');
+            const data = {
+                email: document.getElementById("userLoginEmail").value,
+                password: document.getElementById("userLoginPassword").value
+            };
+            try {
+                const res = await fetch('/login/user', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                if (result.status === "success") {
+                    window.location.href = "/user";
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                console.error('Error submitting user login:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
+
     <!-- User Signup Modal -->
     <div class="modal" id="userSignupModal">
         <div class="modal-content">
-            <button class="close-btn" id="closeUserSignupBtn">&times;</button>
+            <button class="close-btn" id="closeUserSignupBtn">×</button>
             <h2 class="form-title">Create User Account</h2>
             <form id="userSignupForm">
                 <div class="form-group">
@@ -839,11 +1039,46 @@
             </form>
         </div>
     </div>
-    
+
+    <script>
+        document.getElementById("userSignupForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            console.log('User signup form submitted');
+            const password = document.getElementById("userSignupPassword").value;
+            const confirmPassword = document.getElementById("userSignupConfirmPassword").value;
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            const data = {
+                name: document.getElementById("userSignupName").value,
+                phone: document.getElementById("userSignupPhone").value,
+                email: document.getElementById("userSignupEmail").value,
+                address: document.getElementById("userSignupAddress").value,
+                password: password
+            };
+            try {
+                const res = await fetch('/signup/user', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                alert(result.message);
+                document.getElementById("userSignupForm").reset();
+                document.getElementById("userSignupModal").style.display = 'none';
+                document.body.style.overflow = '';
+            } catch (error) {
+                console.error('Error submitting user signup:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
+
     <!-- Admin Login Modal -->
     <div class="modal" id="adminLoginModal">
         <div class="modal-content">
-            <button class="close-btn" id="closeAdminLoginBtn">&times;</button>
+            <button class="close-btn" id="closeAdminLoginBtn">×</button>
             <h2 class="form-title">Admin Login</h2>
             <form id="adminLoginForm">
                 <div class="form-group">
@@ -859,12 +1094,38 @@
                     <input type="password" id="adminLoginCode" class="form-control" placeholder="Enter admin code" required>
                 </div>
                 <button type="submit" class="form-button">Login</button>
-                <div class="form-footer">
-                    <p><a href="#">Forgot password?</a></p>
-                </div>
+                
             </form>
         </div>
     </div>
+
+    <script>
+        document.getElementById("adminLoginForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            console.log('Admin login form submitted');
+            const data = {
+                email: document.getElementById("adminLoginEmail").value,
+                password: document.getElementById("adminLoginPassword").value,
+                adminCode: document.getElementById("adminLoginCode").value
+            };
+            try {
+                const res = await fetch('/login/admin', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                if (result.status === "success") {
+                    window.location.href = "/admin";
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                console.error('Error submitting admin login:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
 
     <!-- Footer -->
     <footer>
@@ -907,7 +1168,7 @@
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2025 KrishiSetu. All rights reserved.</p>
+                <p>© 2025 KrishiSetu. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -940,24 +1201,29 @@
             }
         };
 
-        // Open Modal Function
+        // Open Modal Function with Debugging
         function openModal(modalElement) {
             if (modalElement) {
+                console.log('Opening modal:', modalElement.id);
                 modalElement.style.display = 'flex';
-                document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+                document.body.style.overflow = 'hidden';
+            } else {
+                console.error('Modal element not found');
             }
         }
 
         // Close Modal Function
         function closeModal(modalElement) {
             if (modalElement) {
+                console.log('Closing modal:', modalElement.id);
                 modalElement.style.display = 'none';
-                document.body.style.overflow = ''; // Enable scrolling again
+                document.body.style.overflow = '';
             }
         }
 
         // Close all modals
         function closeAllModals() {
+            console.log('Closing all modals');
             for (const role in modals) {
                 for (const type in modals[role]) {
                     closeModal(modals[role][type]);
@@ -965,12 +1231,23 @@
             }
         }
 
+        // Ensure all modals are closed on page load
+        window.addEventListener('load', () => {
+            console.log('Page loaded, ensuring all modals are closed');
+            closeAllModals();
+        });
+
         // Add event listeners for login buttons
         document.querySelectorAll('.role-button.login').forEach(button => {
             button.addEventListener('click', () => {
                 const role = button.dataset.role;
-                closeAllModals();
-                openModal(modals[role].login);
+                console.log('Login button clicked for role:', role);
+                if (modals[role] && modals[role].login) {
+                    closeAllModals();
+                    openModal(modals[role].login);
+                } else {
+                    console.error(`Login modal not found for role: ${role}`);
+                }
             });
         });
 
@@ -978,9 +1255,12 @@
         document.querySelectorAll('.role-button.signup').forEach(button => {
             button.addEventListener('click', () => {
                 const role = button.dataset.role;
-                if (modals[role].signup) {
+                console.log('Signup button clicked for role:', role);
+                if (modals[role] && modals[role].signup) {
                     closeAllModals();
                     openModal(modals[role].signup);
+                } else {
+                    console.error(`Signup modal not found for role: ${role}`);
                 }
             });
         });
@@ -988,6 +1268,7 @@
         // Add event listeners for close buttons
         document.querySelectorAll('.close-btn').forEach(button => {
             button.addEventListener('click', () => {
+                console.log('Close button clicked');
                 closeAllModals();
             });
         });
@@ -997,8 +1278,13 @@
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const role = link.dataset.role;
-                closeAllModals();
-                openModal(modals[role].login);
+                console.log('Switching to login for role:', role);
+                if (modals[role] && modals[role].login) {
+                    closeAllModals();
+                    openModal(modals[role].login);
+                } else {
+                    console.error(`Login modal not found for role: ${role}`);
+                }
             });
         });
 
@@ -1006,8 +1292,13 @@
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const role = link.dataset.role;
-                closeAllModals();
-                openModal(modals[role].signup);
+                console.log('Switching to signup for role:', role);
+                if (modals[role] && modals[role].signup) {
+                    closeAllModals();
+                    openModal(modals[role].signup);
+                } else {
+                    console.error(`Signup modal not found for role: ${role}`);
+                }
             });
         });
 
@@ -1016,85 +1307,15 @@
             for (const role in modals) {
                 for (const type in modals[role]) {
                     if (e.target === modals[role][type]) {
+                        console.log('Clicked outside modal:', modals[role][type].id);
                         closeModal(modals[role][type]);
                     }
                 }
             }
         });
 
-        // Form submission handling
-        const forms = {
-            farmerLoginForm: document.getElementById('farmerLoginForm'),
-            farmerSignupForm: document.getElementById('farmerSignupForm'),
-            sellerLoginForm: document.getElementById('sellerLoginForm'),
-            sellerSignupForm: document.getElementById('sellerSignupForm'),
-            userLoginForm: document.getElementById('userLoginForm'),
-            userSignupForm: document.getElementById('userSignupForm'),
-            adminLoginForm: document.getElementById('adminLoginForm')
-        };
-
-        // Function to handle form submission
-        function handleFormSubmit(e, formType, role) {
-            e.preventDefault();
-            
-            // Example validation for password match in signup forms
-            if (formType === 'signup') {
-                const password = document.getElementById(`${role}SignupPassword`).value;
-                const confirmPassword = document.getElementById(`${role}SignupConfirmPassword`).value;
-                
-                if (password !== confirmPassword) {
-                    alert('Passwords do not match!');
-                    return;
-                }
-            }
-            
-            // Get form data
-            const formData = new FormData(e.target);
-            const formDataObj = {};
-            
-            formData.forEach((value, key) => {
-                formDataObj[key] = value;
-            });
-            
-            // Here you would typically send the data to your server
-            console.log(`${role} ${formType} form submitted:`, formDataObj);
-            
-            // For demonstration purposes, show success message
-            alert(`${role.charAt(0).toUpperCase() + role.slice(1)} ${formType} successful!`);
-            
-            // Close the modal
-            closeAllModals();
-            
-            // Reset the form
-            e.target.reset();
-        }
-
-        // Add event listeners for form submissions
-        if (forms.farmerLoginForm) {
-            forms.farmerLoginForm.addEventListener('submit', (e) => handleFormSubmit(e, 'login', 'farmer'));
-        }
-        if (forms.farmerSignupForm) {
-            forms.farmerSignupForm.addEventListener('submit', (e) => handleFormSubmit(e, 'signup', 'farmer'));
-        }
-        if (forms.sellerLoginForm) {
-            forms.sellerLoginForm.addEventListener('submit', (e) => handleFormSubmit(e, 'login', 'seller'));
-        }
-        if (forms.sellerSignupForm) {
-            forms.sellerSignupForm.addEventListener('submit', (e) => handleFormSubmit(e, 'signup', 'seller'));
-        }
-        if (forms.userLoginForm) {
-            forms.userLoginForm.addEventListener('submit', (e) => handleFormSubmit(e, 'login', 'user'));
-        }
-        if (forms.userSignupForm) {
-            forms.userSignupForm.addEventListener('submit', (e) => handleFormSubmit(e, 'signup', 'user'));
-        }
-        if (forms.adminLoginForm) {
-            forms.adminLoginForm.addEventListener('submit', (e) => handleFormSubmit(e, 'login', 'admin'));
-        }
-
         // Password validation
         function validatePassword(password) {
-            // At least 8 characters, one uppercase, one lowercase, one number
             const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
             return regex.test(password);
         }
@@ -1149,7 +1370,6 @@
             const passwordFields = document.querySelectorAll('input[type="password"]');
             
             passwordFields.forEach(field => {
-                // Create toggle button
                 const toggleBtn = document.createElement('button');
                 toggleBtn.type = 'button';
                 toggleBtn.innerText = '👁️';
@@ -1161,20 +1381,13 @@
                 toggleBtn.style.border = 'none';
                 toggleBtn.style.cursor = 'pointer';
                 
-                // Wrap password field in a div for positioning
                 const wrapper = document.createElement('div');
                 wrapper.style.position = 'relative';
                 
-                // Insert wrapper before the password field
                 field.parentNode.insertBefore(wrapper, field);
-                
-                // Move password field into wrapper
                 wrapper.appendChild(field);
-                
-                // Add toggle button to wrapper
                 wrapper.appendChild(toggleBtn);
                 
-                // Add event listener to toggle button
                 toggleBtn.addEventListener('click', () => {
                     if (field.type === 'password') {
                         field.type = 'text';
