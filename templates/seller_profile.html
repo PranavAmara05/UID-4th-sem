@@ -306,6 +306,9 @@
                 gap: 0;
             }
         }
+          .hero{
+             background: url("{{ url_for('static', filename='images/water.jpg') }}") no-repeat center center/cover;
+        }
 
         @media (max-width: 576px) {
             .logo h1 {
@@ -361,6 +364,7 @@
 
     <!-- Main Content -->
     <div class="main-content">
+        <section class="hero">
         <div class="container">
             <!-- Profile Content -->
             <div class="profile-content">
@@ -404,6 +408,7 @@
             </div>
         </div>
     </div>
+    </section>
 
     <!-- Footer -->
     <footer>
