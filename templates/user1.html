@@ -986,9 +986,14 @@
         .notification-error {
             border-left: 4px solid var(--danger-color);
         }
+
+        .hero{
+             background: url("{{ url_for('static', filename='images/water.jpg') }}") no-repeat center center/cover;
+        }
     </style>
 </head>
 <body>
+    <section class="hero">
     <!-- Header -->
     <header>
         <div class="container">
@@ -1001,7 +1006,7 @@
                 <button class="hamburger" id="hamburger">☰</button>
                 
                 <div class="nav-links" id="navLinks">
-                    <a href = "{{ url_for('home') }}";>Home</a>
+                   
                     <a href="#" id="cartLink">Cart (0)</a>
                 </div>
                 
@@ -1297,7 +1302,7 @@
             </div>
         </div>
     </div>
-
+</section>
     <!-- Footer -->
     <footer>
         <div class="container">
