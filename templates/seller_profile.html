@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KrishiSetu - seller Profile</title>
+    <title>KrishiSetu - Seller Profile</title>
     <style>
         /* Global Styles */
         * {
@@ -223,6 +223,13 @@
             outline: none;
         }
 
+        /* Style for disabled inputs */
+        .form-control:disabled {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
         .form-row {
             display: flex;
             gap: 15px;
@@ -243,10 +250,24 @@
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            display: none; /* Hide save button by default */
         }
 
         .form-button:hover {
             background-color: var(--secondary-color);
+        }
+        
+        /* Success message */
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background-color: var(--success-color);
+            color: white;
         }
 
         /* Responsive Design */
@@ -320,6 +341,9 @@
         .fa-user:before { content: "👤"; }
         .fa-sign-out:before { content: "🚪"; }
         .fa-edit:before { content: "✏️"; }
+        .fa-check:before { content: "✓"; }
+        .fa-save:before { content: "💾"; }
+        .fa-times:before { content: "❌"; }
     </style>
 </head>
 <body>
@@ -328,11 +352,10 @@
         <div class="container">
             <nav>
                 <div class="logo">
-                    <img src="images/logo.jpg" alt="KrishiSetu Logo">
+                     <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="KrishiSetu Logo">
                     <h1>KrishiSetu</h1>
                 </div>
-
- </nav>
+            </nav>
         </div>
     </header>
 
@@ -341,34 +364,42 @@
         <div class="container">
             <!-- Profile Content -->
             <div class="profile-content">
+                <!-- Success Alert -->
+                <div id="successAlert" class="alert alert-success">
+                    <span class="fa fa-check"></span> Changes saved successfully!
+                </div>
+                
                 <div class="profile-header">
                     <h2 class="profile-title">Seller Profile</h2>
-                    <button class="btn btn-primary" id="editProfileBtn">
-                        <span class="fa fa-edit"></span> Edit Profile
-                    </button>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="editProfileBtn">
+                            <span class="fa fa-edit"></span> Edit Profile
+                        </button>
+                        <button class="btn btn-primary" id="cancelEditBtn" style="display: none; background-color: var(--danger-color);">
+                            <span class="fa fa-times"></span> Cancel
+                        </button>
+                    </div>
                 </div>
 
                 <form id="profileForm">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="bussName">Business Name</label>
-                            <input type="text" id="bussName" class="form-control"  required>
+                            <input type="text" id="bussName" class="form-control" value="Green Agro Solutions" required disabled>
                         </div>
-                        
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" class="form-control" required>
-                    </div>
+                    
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" class="form-control"  required>
+                        <input type="tel" id="phone" class="form-control" value="9898765432" required disabled>
                     </div>
                     <div class="form-group">
                         <label for="gst">GST Number</label>
-                        <input type="text" id="gst" class="form-control" required>
+                        <input type="text" id="gst" class="form-control" value="29AABCU9603R1ZJ" required disabled>
                     </div>
-                    <button type="submit" class="form-button">Save Changes</button>
+                    <button type="submit" class="form-button" id="saveChangesBtn">
+                        <span class="fa fa-save"></span> Save Changes
+                    </button>
                 </form>
             </div>
         </div>
@@ -385,23 +416,79 @@
         // Mobile Menu Toggle
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('navLinks');
+        
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
 
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+        // Get form elements
+        const profileForm = document.getElementById('profileForm');
+        const successAlert = document.getElementById('successAlert');
+        const editProfileBtn = document.getElementById('editProfileBtn');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+        const saveChangesBtn = document.getElementById('saveChangesBtn');
+        const formInputs = document.querySelectorAll('.form-control');
+        
+        // Store original values
+        const originalValues = {};
+        formInputs.forEach(input => {
+            originalValues[input.id] = input.value;
+        });
+
+        // Edit Profile Button functionality
+        editProfileBtn.addEventListener('click', () => {
+            // Enable form fields
+            formInputs.forEach(input => {
+                input.disabled = false;
+            });
+            
+            // Show save button and cancel button
+            saveChangesBtn.style.display = 'block';
+            cancelEditBtn.style.display = 'inline-flex';
+            editProfileBtn.style.display = 'none';
+            
+            // Focus on the first input field
+            document.getElementById('bussName').focus();
+        });
+        
+        // Cancel Edit Button functionality
+        cancelEditBtn.addEventListener('click', () => {
+            // Reset form to original values
+            formInputs.forEach(input => {
+                input.value = originalValues[input.id];
+                input.disabled = true;
+            });
+            
+            // Hide save button and cancel button
+            saveChangesBtn.style.display = 'none';
+            cancelEditBtn.style.display = 'none';
+            editProfileBtn.style.display = 'inline-flex';
         });
 
         // Profile Form Submission
-        const profileForm = document.getElementById('profileForm');
-
         profileForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('Profile updated successfully!');
-        });
-
-        // Edit Profile Button (Placeholder for future functionality)
-        const editProfileBtn = document.getElementById('editProfileBtn');
-        editProfileBtn.addEventListener('click', () => {
-            alert('Edit profile functionality coming soon!');
+            
+            // Update original values with new values
+            formInputs.forEach(input => {
+                originalValues[input.id] = input.value;
+                input.disabled = true;
+            });
+            
+            // Show success message
+            successAlert.style.display = 'block';
+            
+            // Hide save button and cancel button
+            saveChangesBtn.style.display = 'none';
+            cancelEditBtn.style.display = 'none';
+            editProfileBtn.style.display = 'inline-flex';
+            
+            // Hide the success message after 3 seconds
+            setTimeout(() => {
+                successAlert.style.display = 'none';
+            }, 3000);
         });
     </script>
 </body>
