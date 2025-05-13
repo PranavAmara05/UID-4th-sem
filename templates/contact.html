@@ -330,5 +330,12 @@
       &copy; 2025 KrishiSetu. All rights reserved.
     </div>
   </footer>
+  <script>
+    document.querySelector('.contact-form').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent actual form submission
+      alert('Contact successful');
+      window.location.href = "{{ url_for('home') }}"; // Redirect to home page
+    });
+  </script>
 </body>
 </html>
