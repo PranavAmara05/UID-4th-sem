@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KrishiSetu - admin Profile</title>
+    <title>KrishiSetu - Admin Profile</title>
     <style>
         /* Global Styles */
         * {
@@ -198,6 +198,15 @@
             background-color: var(--secondary-color);
         }
 
+        .btn-warning {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #e68a00;
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
@@ -223,6 +232,11 @@
             outline: none;
         }
 
+        .form-control:disabled {
+            background-color: #f9f9f9;
+            cursor: not-allowed;
+        }
+
         .form-row {
             display: flex;
             gap: 15px;
@@ -243,10 +257,29 @@
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            display: none;
         }
 
         .form-button:hover {
             background-color: var(--secondary-color);
+        }
+
+        .form-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        /* Success message */
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background-color: var(--success-color);
+            color: white;
         }
 
         /* Responsive Design */
@@ -320,6 +353,8 @@
         .fa-user:before { content: "👤"; }
         .fa-sign-out:before { content: "🚪"; }
         .fa-edit:before { content: "✏️"; }
+        .fa-check:before { content: "✓"; }
+        .fa-save:before { content: "💾"; }
     </style>
 </head>
 <body>
@@ -331,8 +366,7 @@
                     <img src="images/logo.jpg" alt="KrishiSetu Logo">
                     <h1>KrishiSetu</h1>
                 </div>
-
- </nav>
+            </nav>
         </div>
     </header>
 
@@ -341,6 +375,11 @@
         <div class="container">
             <!-- Profile Content -->
             <div class="profile-content">
+                <!-- Success Alert -->
+                <div id="successAlert" class="alert alert-success">
+                    <span class="fa fa-check"></span> Changes saved successfully!
+                </div>
+                
                 <div class="profile-header">
                     <h2 class="profile-title">Admin Profile</h2>
                     <button class="btn btn-primary" id="editProfileBtn">
@@ -349,20 +388,18 @@
                 </div>
 
                 <form id="profileForm">
-                    <div class="form-row">
-                        
-                        
-                    </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" class="form-control" required>
+                        <input type="email" id="email" class="form-control" value="admin@krishisetu.com" required disabled>
                     </div>
                    
                     <div class="form-group">
                         <label for="code">Admin Code</label>
-                        <input type="text" id="code" class="form-control" required>
+                        <input type="text" id="code" class="form-control" value="ADM123456" required disabled>
                     </div>
-                    <button type="submit" class="form-button">Save Changes</button>
+                    <button type="submit" class="form-button" id="saveButton" disabled>
+                        <span class="fa fa-save"></span> Save Changes
+                    </button>
                 </form>
             </div>
         </div>
@@ -379,23 +416,69 @@
         // Mobile Menu Toggle
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('navLinks');
-
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
+        
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
 
         // Profile Form Submission
         const profileForm = document.getElementById('profileForm');
+        const successAlert = document.getElementById('successAlert');
+        const saveButton = document.getElementById('saveButton');
 
         profileForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('Profile updated successfully!');
+            
+            // Check if form is in edit mode
+            if(!saveButton.disabled) {
+                // Show success message
+                successAlert.style.display = 'block';
+                
+                // Disable form fields and save button
+                toggleEditMode(false);
+                
+                // Hide the success message after 3 seconds
+                setTimeout(() => {
+                    successAlert.style.display = 'none';
+                }, 3000);
+            }
         });
 
-        // Edit Profile Button (Placeholder for future functionality)
+        // Edit Profile Button
         const editProfileBtn = document.getElementById('editProfileBtn');
+        const formInputs = document.querySelectorAll('#profileForm input');
+        let editMode = false;
+        
+        // Function to toggle edit mode
+        function toggleEditMode(isEditable) {
+            editMode = isEditable;
+            
+            // Enable/disable form inputs
+            formInputs.forEach(input => {
+                input.disabled = !isEditable;
+            });
+            
+            // Enable/disable save button and show/hide it
+            saveButton.disabled = !isEditable;
+            saveButton.style.display = isEditable ? 'block' : 'none';
+            
+            // Update edit button text and style
+            if(isEditable) {
+                editProfileBtn.innerHTML = '<span class="fa fa-edit"></span> Cancel Editing';
+                editProfileBtn.classList.remove('btn-primary');
+                editProfileBtn.classList.add('btn-warning');
+                document.getElementById('email').focus();
+            } else {
+                editProfileBtn.innerHTML = '<span class="fa fa-edit"></span> Edit Profile';
+                editProfileBtn.classList.remove('btn-warning');
+                editProfileBtn.classList.add('btn-primary');
+            }
+        }
+        
         editProfileBtn.addEventListener('click', () => {
-            alert('Edit profile functionality coming soon!');
+            toggleEditMode(!editMode);
         });
     </script>
 </body>

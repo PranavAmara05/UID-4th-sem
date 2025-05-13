@@ -198,6 +198,15 @@
             background-color: var(--secondary-color);
         }
 
+        .btn-warning {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #e68a00;
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
@@ -223,6 +232,11 @@
             outline: none;
         }
 
+        .form-control:disabled {
+            background-color: #f9f9f9;
+            cursor: not-allowed;
+        }
+
         .form-row {
             display: flex;
             gap: 15px;
@@ -243,10 +257,20 @@
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            display: none;
         }
 
         .form-button:hover {
             background-color: var(--secondary-color);
+        }
+
+        .form-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .form-button.active {
+            display: block;
         }
 
         /* Success message */
@@ -298,6 +322,9 @@
                 gap: 0;
             }
         }
+          .hero{
+             background: url("{{ url_for('static', filename='images/water.jpg') }}") no-repeat center center/cover;
+        }
 
         @media (max-width: 576px) {
             .logo h1 {
@@ -334,6 +361,7 @@
         .fa-sign-out:before { content: "🚪"; }
         .fa-edit:before { content: "✏️"; }
         .fa-check:before { content: "✓"; }
+        .fa-save:before { content: "💾"; }
     </style>
 </head>
 <body>
@@ -351,6 +379,7 @@
 
     <!-- Main Content -->
     <div class="main-content">
+        <section class="hero"></section>
         <div class="container">
             <!-- Profile Content -->
             <div class="profile-content">
@@ -382,11 +411,14 @@
                         <label for="land">Land Size (Acres)</label>
                         <input type="number" id="land" class="form-control" value="5" required disabled>
                     </div>
-                    <button type="submit" class="form-button" disabled>Save Changes</button>
+                    <button type="submit" class="form-button" id="saveButton" disabled>
+                        <span class="fa fa-save"></span> Save Changes
+                    </button>
                 </form>
             </div>
         </div>
     </div>
+    </section>
 
     <!-- Footer -->
     <footer>
@@ -409,49 +441,59 @@
         // Profile Form Submission
         const profileForm = document.getElementById('profileForm');
         const successAlert = document.getElementById('successAlert');
+        const saveButton = document.getElementById('saveButton');
 
         profileForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
-            // Show success message
-            successAlert.style.display = 'block';
-            
-            // Show alert
-            alert('Profile changes saved successfully!');
-            
-            // Hide the success message after 3 seconds
-            setTimeout(() => {
-                successAlert.style.display = 'none';
-            }, 3000);
+            // Check if form is in edit mode
+            if(!saveButton.disabled) {
+                // Show success message
+                successAlert.style.display = 'block';
+                
+                // Disable form fields and save button
+                toggleEditMode(false);
+                
+                // Hide the success message after 3 seconds
+                setTimeout(() => {
+                    successAlert.style.display = 'none';
+                }, 3000);
+            }
         });
 
         // Edit Profile Button
         const editProfileBtn = document.getElementById('editProfileBtn');
         const formInputs = document.querySelectorAll('#profileForm input');
-        const saveButton = document.querySelector('.form-button');
         let editMode = false;
         
-        editProfileBtn.addEventListener('click', () => {
-            editMode = !editMode;
+        // Function to toggle edit mode
+        function toggleEditMode(isEditable) {
+            editMode = isEditable;
             
-            if(editMode) {
-                // Enable editing
-                formInputs.forEach(input => {
-                    input.disabled = false;
-                });
-                saveButton.disabled = false;
-                document.getElementById('fullName').focus();
+            // Enable/disable form inputs
+            formInputs.forEach(input => {
+                input.disabled = !isEditable;
+            });
+            
+            // Enable/disable save button and show/hide it
+            saveButton.disabled = !isEditable;
+            saveButton.style.display = isEditable ? 'block' : 'none';
+            
+            // Update edit button text and style
+            if(isEditable) {
                 editProfileBtn.innerHTML = '<span class="fa fa-edit"></span> Cancel Editing';
-                editProfileBtn.style.backgroundColor = '#FF9800';
+                editProfileBtn.classList.remove('btn-primary');
+                editProfileBtn.classList.add('btn-warning');
+                document.getElementById('fullName').focus();
             } else {
-                // Disable editing
-                formInputs.forEach(input => {
-                    input.disabled = true;
-                });
-                saveButton.disabled = true;
                 editProfileBtn.innerHTML = '<span class="fa fa-edit"></span> Edit Profile';
-                editProfileBtn.style.backgroundColor = '';
+                editProfileBtn.classList.remove('btn-warning');
+                editProfileBtn.classList.add('btn-primary');
             }
+        }
+        
+        editProfileBtn.addEventListener('click', () => {
+            toggleEditMode(!editMode);
         });
     </script>
 </body>
