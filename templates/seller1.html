@@ -813,7 +813,7 @@
                 <div class="dashboard-header">
                     <h2 class="dashboard-title">Seller Dashboard</h2>
                     <div class="dashboard-actions">
-                        <button class="btn btn-outline" id="exportBtn">
+                        <button class="btn btn-outline" onclick="window.print()" id="exportBtn">
                             <i class="fa fa-download"></i> Export Data
                         </button>
                         <button class="btn btn-primary" id="addProductBtn">
@@ -1226,6 +1226,7 @@
         const exportBtn = document.getElementById('exportBtn');
         
         exportBtn.addEventListener('click', () => {
+
             alert('Data exported successfully!');
         });
 
