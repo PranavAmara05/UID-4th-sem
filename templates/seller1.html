@@ -659,6 +659,10 @@
             background-color: var(--secondary-color);
         }
 
+        .hero{
+             background: url("{{ url_for('static', filename='images/water.jpg') }}") no-repeat center center/cover;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .hamburger {
@@ -801,6 +805,7 @@
     </header>
 
     <!-- Main Content -->
+     <section class = "hero">
     <div class="main-content">
         <div class="container">
             <!-- Dashboard Content -->
@@ -853,7 +858,7 @@
                 <div class="products-list">
                     <div class="section-header">
                         <h3 class="section-title">Products</h3>
-                        <a href="#" class="view-all">View All</a>
+                        
                     </div>
 
                     <table class="products-table">
@@ -869,7 +874,7 @@
                         </thead>
                         <tbody id="productsBody">
                             <tr class="product-row" data-page="1">
-                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
+                                <td><img src="{{ url_for('static', filename='images/fert.jpg') }}" alt="Product" class="product-image"></td>
                                 <td>
                                     <div class="product-name">Organic Fertilizer</div>
                                     <div class="product-category">Fertilizers</div>
@@ -885,7 +890,7 @@
                                 </td>
                             </tr>
                             <tr class="product-row" data-page="1">
-                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
+                                <td><img src="{{ url_for('static', filename='images/neem.jpg') }}" alt="Product" class="product-image"></td>
                                 <td>
                                     <div class="product-name">Neem Pesticide</div>
                                     <div class="product-category">Pesticides</div>
@@ -901,7 +906,7 @@
                                 </td>
                             </tr>
                             <tr class="product-row" data-page="1">
-                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
+                                <td><img src="{{ url_for('static', filename='images/wheatseeds.jpg') }}" alt="Product" class="product-image"></td>
                                 <td>
                                     <div class="product-name">High-Yield Wheat Seeds</div>
                                     <div class="product-category">Seeds</div>
@@ -917,7 +922,7 @@
                                 </td>
                             </tr>
                             <tr class="product-row" data-page="2">
-                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
+                                <td><img src="{{ url_for('static', filename='images/drip.jpg') }}" alt="Product" class="product-image"></td>
                                 <td>
                                     <div class="product-name">Drip Irrigation Kit</div>
                                     <div class="product-category">Equipment</div>
@@ -933,7 +938,7 @@
                                 </td>
                             </tr>
                             <tr class="product-row" data-page="2">
-                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
+                                <td><img src="{{ url_for('static', filename='images/soil.jpeg') }}" alt="Product" class="product-image"></td>
                                 <td>
                                     <div class="product-name">Soil Testing Kit</div>
                                     <div class="product-category">Tools</div>
@@ -949,7 +954,7 @@
                                 </td>
                             </tr>
                             <tr class="product-row" data-page="2">
-                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
+                                <td><img src="{{ url_for('static', filename='images/organiccompost.jpg') }}" alt="Product" class="product-image"></td>
                                 <td>
                                     <div class="product-name">Organic Compost</div>
                                     <div class="product-category">Fertilizers</div>
@@ -965,7 +970,7 @@
                                 </td>
                             </tr>
                             <tr class="product-row" data-page="3">
-                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
+                                <td><img src="{{ url_for('static', filename='images/bio.jpg') }}" alt="Product" class="product-image"></td>
                                 <td>
                                     <div class="product-name">Bio Pesticide</div>
                                     <div class="product-category">Pesticides</div>
@@ -980,38 +985,8 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr class="product-row" data-page="3">
-                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
-                                <td>
-                                    <div class="product-name">Hybrid Corn Seeds</div>
-                                    <div class="product-category">Seeds</div>
-                                </td>
-                                <td>Seeds</td>
-                                <td class="product-price">₹1500/kg</td>
-                                <td><span class="product-stock stock-available">In Stock (100)</span></td>
-                                <td>
-                                    <div class="product-actions">
-                                        <button class="action-btn btn-edit" data-row-index="7"><span class="fa fa-edit"></span></button>
-                                        <button class="action-btn btn-delete"><span class="fa fa-trash"></span></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="product-row" data-page="3">
-                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
-                                <td>
-                                    <div class="product-name">Sprinkler System</div>
-                                    <div class="product-category">Equipment</div>
-                                </td>
-                                <td>Equipment</td>
-                                <td class="product-price">₹4000/set</td>
-                                <td><span class="product-stock stock-out">Out of Stock</span></td>
-                                <td>
-                                    <div class="product-actions">
-                                        <button class="action-btn btn-edit" data-row-index="8"><span class="fa fa-edit"></span></button>
-                                        <button class="action-btn btn-delete"><span class="fa fa-trash"></span></button>
-                                    </div>
-                                </td>
-                            </tr>
+                            
+                            
                         </tbody>
                     </table>
 
@@ -1020,6 +995,7 @@
                         <div class="pagination-item active" data-page="1">1</div>
                         <div class="pagination-item" data-page="2">2</div>
                         <div class="pagination-item" data-page="3">3</div>
+                        
                     </div>
                 </div>
 
@@ -1027,7 +1003,8 @@
                 <div class="recent-orders">
                     <div class="section-header">
                         <h3 class="section-title">Recent Orders</h3>
-                        <a href="#" class="view-all">View All</a>
+                        
+                    
                     </div>
 
                     <div class="order-item">
@@ -1144,7 +1121,7 @@
             </form>
         </div>
     </div>
-
+</section>
     <!-- Footer -->
     <footer>
         <div class="copyright">
