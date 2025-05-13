@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us - KrishiSetu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2e7d32;
+      --primary-light: #4CAF50;
+      --primary-hover: #388E3C;
+      --primary-dark: #1b5e20;
+      --accent: #FFC107;
+      --text: #333333;
+      --text-light: #757575;
+      --background: #f7f9fc;
+      --white: #ffffff;
+      --muted: #f5f5f5;
+      --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    
+    .navbar {
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo i {
+      margin-right: 8px;
+      color: var(--primary-light);
+    }
+    
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      padding: 60px 0;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-image: url('/api/placeholder/1200/400');
+      background-size: cover;
+      opacity: 0.1;
+      z-index: 0;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .hero-title {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .main {
+      max-width: 650px;
+      margin: -40px auto 60px;
+      background: var(--white);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      z-index: 10;
+    }
+    
+    .section-title {
+      color: var(--primary);
+      margin-bottom: 20px;
+      font-size: 28px;
+      font-weight: 600;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+    
+    .intro-text {
+      margin-bottom: 25px;
+      font-size: 17px;
+      color: var(--text-light);
+    }
+    
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 30px;
+      animation: fadeIn 0.6s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .form-group i {
+      position: absolute;
+      left: 12px;
+      top: 14px;
+      color: var(--text-light);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 14px 15px 14px 40px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      background: var(--muted);
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+      background: var(--white);
+    }
+    
+    textarea.form-control {
+      resize: vertical;
+      min-height: 120px;
+    }
+    
+    .submit-btn {
+      background: var(--primary-light);
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      font-weight: 600;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .submit-btn i {
+      margin-right: 8px;
+    }
+    
+    .submit-btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+    }
+    
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+    
+    .alternative-contact {
+      background: var(--muted);
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 30px;
+      border-left: 4px solid var(--primary-light);
+    }
+    
+    .contact-info {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+    
+    .contact-info i {
+      color: var(--primary);
+      margin-right: 10px;
+      font-size: 18px;
+    }
+    
+    .contact-info a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    
+    .contact-info a:hover {
+      color: var(--primary-hover);
+      text-decoration: underline;
+    }
+    
+    footer {
+      background: var(--primary-dark);
+      color: rgba(255, 255, 255, 0.8);
+      padding: 20px 0;
+      text-align: center;
+      font-size: 14px;
+    }
+    
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 32px;
+      }
+      
+      .main {
+        padding: 30px 20px;
+        margin-top: -30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-content">
+        <div class="logo">
+          <i class="fas fa-seedling"></i> KrishiSetu
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">Contact Us</h1>
+      </div>
+    </div>
+  </section>
+
+  <main class="main">
+    <h2 class="section-title">Get in Touch</h2>
+    <p class="intro-text">If you have any questions or feedback, feel free to reach out!</p>
+    
+    <form class="contact-form">
+      <div class="form-group">
+        <i class="fas fa-user"></i>
+        <input type="text" class="form-control" placeholder="Your Name" required />
+      </div>
+      
+      <div class="form-group">
+        <i class="fas fa-envelope"></i>
+        <input type="email" class="form-control" placeholder="Your Email" required />
+      </div>
+      
+      <div class="form-group">
+        <i class="fas fa-comment-alt"></i>
+        <textarea class="form-control" rows="5" placeholder="Your Message" required></textarea>
+      </div>
+      
+      <button type="submit" class="submit-btn">
+        <i class="fas fa-paper-plane"></i> Send Message
+      </button>
+    </form>
+    
+    <div class="alternative-contact">
+      <p>Or reach us directly:</p>
+      <div class="contact-info">
+        <i class="fas fa-envelope"></i>
+        <a href="mailto:info@krishisetu.com">info@krishisetu.com</a>
+      </div>
+      <div class="contact-info">
+        <i class="fas fa-phone-alt"></i>
+        <strong>+91 0123456789</strong>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      &copy; 2025 KrishiSetu. All rights reserved.
+    </div>
+  </footer>
+</body>
+</html>

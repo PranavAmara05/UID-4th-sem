@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KrishiSetu - Farmer Dashboard</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #388E3C;
+            --accent-color: #FFC107;
+            --text-color: #333;
+            --light-color: #f9f9f9;
+            --dark-color: #212121;
+            --danger-color: #f44336;
+            --warning-color: #FF9800;
+            --info-color: #2196F3;
+            --success-color: #8BC34A;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 35px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            color: var(--primary-color);
+            font-size: 36px;  
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .tag { display: none; }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+        }
+
+        /* User Profile */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .user-menu {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            width: 200px;
+            z-index: 100;
+            display: none;
+        }
+
+        .user-menu.active {
+            display: block;
+        }
+
+        .user-menu ul {
+            list-style: none;
+        }
+
+        .user-menu ul li {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .user-menu ul li:last-child {
+            border-bottom: none;
+        }
+
+        .user-menu ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .user-menu ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 85px;
+            padding: 20px 0;
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            gap: 20px;
+        }
+
+        /* Welcome Banner */
+        .welcome-banner {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .welcome-text h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .welcome-text p {
+            color: #666;
+        }
+
+        .welcome-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-cancel {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Dashboard Cards Grid */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(76, 175, 80, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--primary-color);
+        }
+
+        .card-content {
+            margin-bottom: 15px;
+        }
+
+        .card-content p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .card-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .card-footer a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Weather Card */
+        .weather-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .weather-temp {
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        .weather-icon {
+            font-size: 48px;
+            color: var(--accent-color);
+        }
+
+        .weather-details {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .weather-detail {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .weather-detail span:first-child {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .weather-detail span:last-child {
+            font-weight: 500;
+        }
+
+        /* Market Prices Card */
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .price-item:last-child {
+            border-bottom: none;
+        }
+
+        .price-name {
+            font-weight: 500;
+        }
+
+        .price-value {
+            font-weight: 600;
+        }
+
+        .price-change {
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .price-up {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--primary-color);
+        }
+
+        .price-down {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--danger-color);
+        }
+
+        /* Crop Management Card */
+        .crop-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .crop-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .crop-item:last-child {
+            border-bottom: none;
+        }
+
+        .crop-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .crop-name {
+            font-weight: 500;
+        }
+
+        .crop-details {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .crop-status {
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--primary-color);
+        }
+
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--accent-color);
+        }
+
+        .status-sold {
+            background-color: rgba(33, 150, 243, 0.1);
+            color: var(--info-color);
+        }
+
+        /* Buyer Requests Card */
+        .request-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .request-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .request-item:last-child {
+            border-bottom: none;
+        }
+
+        .request-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .request-buyer {
+            font-weight: 500;
+        }
+
+        .request-details {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .request-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .request-actions button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-accept {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-accept:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-reject {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-reject:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            color: var(--primary-color);
+        }
+
+        .close-modal {
+            cursor: pointer;
+            font-size: 24px;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .report-content {
+            margin-bottom: 20px;
+        }
+
+        .report-content h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .report-content p {
+            margin-bottom: 10px;
+        }
+
+        /* Buy Resources Modal */
+        .resources-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .resources-table th, .resources-table td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        .resources-table th {
+            background-color: #f5f5f5;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .resources-table tr:hover {
+            background-color: rgba(76, 175, 80, 0.05);
+        }
+
+        .stock-available {
+            background-color: rgba(139, 195, 74, 0.2);
+            color: var(--success-color);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stock-low {
+            background-color: rgba(255, 152, 0, 0.2);
+            color: var(--warning-color);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stock-out {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: var(--danger-color);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Payment Modal */
+        .order-summary {
+            margin-bottom: 20px;
+        }
+
+        .order-summary table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .order-summary th, .order-summary td {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        .order-summary th {
+            background-color: #f5f5f5;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .payment-methods {
+            margin-bottom: 20px;
+        }
+
+        .payment-methods label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .payment-methods input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .payment-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        /* Tablets and mobile devices */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                flex-direction: column;
+                background-color: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+                padding: 20px 0;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links a {
+                margin: 15px 0;
+            }
+            
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 98;
+                display: none;
+            }
+            
+            .overlay.active {
+                display: block;
+            }
+
+            .modal-content {
+                margin: 0 15px;
+                width: calc(100% - 30px);
+            }
+        }
+
+        /* Mobile devices */
+        @media (max-width: 576px) {
+            .welcome-banner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .welcome-actions {
+                margin-top: 15px;
+            }
+            
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-avatar {
+                margin-left: 10px;
+            }
+            
+            .logo h1 {
+                font-size: 24px;
+            }
+            
+            .logo img {
+                height: 30px;
+            }
+
+            .resources-table th:nth-child(3),
+            .resources-table td:nth-child(3) {
+                display: none;
+            }
+
+            .payment-actions {
+                flex-direction: column;
+            }
+
+            .payment-actions button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <img src="images/logo.jpg" alt="KrishiSetu Logo">
+                    <h1>KrishiSetu</h1>
+                </div>
+                
+                <button class="hamburger" id="hamburger">☰</button>
+                
+                <div class="nav-links" id="navLinks">
+                    <a href="home.html">Home</a>
+                </div>
+                
+                <div class="user-profile">
+                    <div class="user-avatar" id="userAvatar">
+                        JD
+                    </div>
+                    <div class="user-menu" id="userMenu">
+                        <ul>
+                            <li><a href="farmer_profile.html">Profile</a></li>
+                            <li><a href="logout.html">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Welcome Banner -->
+                <div class="welcome-banner">
+                    <div class="welcome-text">
+                        <h2>Welcome back, John Doe!</h2>
+                        <p>Here's what's happening with your farm today.</p>
+                    </div>
+                    <div class="welcome-actions">
+                        <button class="btn btn-primary" id="addCropBtn">Add New Crop</button>
+                        <button class="btn btn-outline" id="viewReportsBtn">View Reports</button>
+                    </div>
+                </div>
+
+                <!-- Dashboard Cards -->
+                <div class="dashboard-cards">
+                    <!-- Weather Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Today's Weather</h3>
+                            <div class="card-icon">🌦️</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="weather-info">
+                                <div class="weather-temp" id="weatherTemp">--°C</div>
+                                <div class="weather-icon" id="weatherIcon">⛅</div>
+                            </div>
+                            <p id="weatherDescription">Loading weather data...</p>
+                            <div class="weather-details">
+                                <div class="weather-detail">
+                                    <span>Humidity</span>
+                                    <span id="weatherHumidity">--%</span>
+                                </div>
+                                <div class="weather-detail">
+                                    <span>Wind</span>
+                                    <span id="weatherWind">-- km/h</span>
+                                </div>
+                                <div class="weather-detail">
+                                    <span>Rain</span>
+                                    <span id="weatherRain">--%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <span id="weatherUpdateTime">Updating...</span>
+                            <a href="#">5-day forecast →</a>
+                        </div>
+                    </div>
+
+                    <!-- Market Prices Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Market Prices</h3>
+                            <div class="card-icon">📊</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="price-item">
+                                <div class="price-name">Rice</div>
+                                <div class="price-value">₹2,540/quintal</div>
+                                <div class="price-change price-up">+2.4%</div>
+                            </div>
+                            <div class="price-item">
+                                <div class="price-name">Wheat</div>
+                                <div class="price-value">₹2,100/quintal</div>
+                                <div class="price-change price-up">+1.8%</div>
+                            </div>
+                            <div class="price-item">
+                                <div class="price-name">Cotton</div>
+                                <div class="price-value">₹6,300/quintal</div>
+                                <div class="price-change price-down">-0.7%</div>
+                            </div>
+                            <div class="price-item">
+                                <div class="price-name">Sugarcane</div>
+                                <div class="price-value">₹290/quintal</div>
+                                <div class="price-change price-up">+0.5%</div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <span>Delhi Mandi Prices</span>
+                            <a href="#">View all prices →</a>
+                        </div>
+                    </div>
+
+                    <!-- Crop Management Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">My Crops</h3>
+                            <div class="card-icon">🌾</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="crop-list" id="cropList">
+                                <div class="crop-item">
+                                    <div class="crop-info">
+                                        <div class="crop-name">Basmati Rice</div>
+                                        <div class="crop-details">50 quintals • ₹2,600/quintal</div>
+                                    </div>
+                                    <div class="crop-status status-active">Listed</div>
+                                </div>
+                                <div class="crop-item">
+                                    <div class="crop-info">
+                                        <div class="crop-name">Wheat</div>
+                                        <div class="crop-details">30 quintals • ₹2,100/quintal</div>
+                                    </div>
+                                    <div class="crop-status status-pending">Pending</div>
+                                </div>
+                                <div class="crop-item">
+                                    <div class="crop-info">
+                                        <div class="crop-name">Cotton</div>
+                                        <div class="crop-details">25 quintals • ₹6,250/quintal</div>
+                                    </div>
+                                    <div class="crop-status status-sold">Sold</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <span id="cropCount">3 active listings</span>
+                            <a href="#">Manage crops →</a>
+                        </div>
+                    </div>
+
+                    <!-- Buyer Requests Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Buyer Requests</h3>
+                            <div class="card-icon">🤝</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="request-list" id="requestList">
+                                <div class="request-item">
+                                    <div class="request-info">
+                                        <div class="request-buyer">Delhi Mills</div>
+                                        <div class="request-details">20 quintals of Basmati Rice at ₹2,550/quintal</div>
+                                    </div>
+                                    <div class="request-actions">
+                                        <button class="btn-accept">Accept</button>
+                                        <button class="btn-reject">Reject</button>
+                                    </div>
+                                </div>
+                                <div class="request-item">
+                                    <div class="request-info">
+                                        <div class="request-buyer">Agra Foods</div>
+                                        <div class="request-details">15 quintals of Wheat at ₹2,080/quintal</div>
+                                    </div>
+                                    <div class="request-actions">
+                                        <button class="btn-accept">Accept</button>
+                                        <button class="btn-reject">Reject</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <span id="requestCount">2 new requests</span>
+                            <a href="#">View all requests →</a>
+                        </div>
+                    </div>
+
+                    <!-- Earnings Summary Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Earnings Summary</h3>
+                            <div class="card-icon">💰</div>
+                        </div>
+                        <div class="card-content">
+                            <div style="margin-bottom: 15px;">
+                                <h4 style="font-size: 14px; color: #666; margin-bottom: 5px;">This Month</h4>
+                                <div style="font-size: 24px; font-weight: 600;">₹1,25,750</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>
+                                    <h4 style="font-size: 14px; color: #666; margin-bottom: 5px;">Pending</h4>
+                                    <div style="font-weight: 500;">₹35,200</div>
+                                </div>
+                                <div>
+                                    <h4 style="font-size: 14px; color: #666; margin-bottom: 5px;">Last Month</h4>
+                                    <div style="font-weight: 500;">₹1,08,500</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <span>+15.9% from last month</span>
+                            <a href="#">View earnings →</a>
+                        </div>
+                    </div>
+
+                    <!-- Buy Resources Card -->
+                    <div class="card" id="buyResourcesCard">
+                        <div class="card-header">
+                            <h3 class="card-title">Buy Resources</h3>
+                            <div class="card-icon">🛒</div>
+                        </div>
+                        <div class="card-content">
+                            <p>Purchase fertilizers, seeds, equipment, and more from trusted sellers.</p>
+                        </div>
+                        <div class="card-footer">
+                            <span>Explore available products</span>
+                            <a href="#" id="browseResources">Browse Resources →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Crop Modal -->
+    <div class="modal" id="addCropModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add New Crop</h2>
+                <span class="close-modal" id="closeAddCrop">×</span>
+            </div>
+            <form id="addCropForm">
+                <div class="form-group">
+                    <label for="cropName">Crop Name</label>
+                    <input type="text" id="cropName" name="cropName" required>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity (quintals)</label>
+                    <input type="number" id="quantity" name="quantity" required min="1">
+                </div>
+                <div class="form-group">
+                    <label for="price">Price per quintal (₹)</label>
+                    <input type="number" id="price" name="price" required min="1">
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status" required>
+                        <option value="active">Listed</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Crop</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Reports Modal -->
+    <div class="modal" id="reportsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Farm Reports</h2>
+                <span class="close-modal" id="closeReports">×</span>
+            </div>
+            <div class="report-content">
+                <h4>Crop Performance</h4>
+                <p>Basmati Rice: 50 quintals sold at ₹2,600/quintal</p>
+                <p>Wheat: 30 quintals pending at ₹2,100/quintal</p>
+                <p>Cotton: 25 quintals sold at ₹6,250/quintal</p>
+                <h4>Financial Summary</h4>
+                <p>This Month: ₹1,25,750</p>
+                <p>Pending: ₹35,200</p>
+                <p>Last Month: ₹1,08,500</p>
+            </div>
+            <button class="btn btn-primary" id="downloadReport">Download Report</button>
+        </div>
+    </div>
+
+    <!-- Buy Resources Modal -->
+    <div class="modal" id="buyResourcesModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Buy Resources</h2>
+                <span class="close-modal" id="closeBuyResources">×</span>
+            </div>
+            <div class="resources-content">
+                <table class="resources-table">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resourcesTableBody"></tbody>
+                </table>
+                <form id="buyResourcesForm">
+                    <div class="form-group">
+                        <label for="resourceProduct">Select Product</label>
+                        <select id="resourceProduct" name="resourceProduct" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="resourceQuantity">Quantity</label>
+                        <input type="number" id="resourceQuantity" name="resourceQuantity" required min="1">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Place Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Complete Your Payment</h2>
+                <span class="close-modal" id="closePayment">×</span>
+            </div>
+            <div class="payment-content">
+                <div class="order-summary">
+                    <h4>Order Summary</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderSummaryBody"></tbody>
+                    </table>
+                </div>
+                <form id="paymentForm">
+                    <div class="payment-methods">
+                        <h4>Select Payment Method</h4>
+                        <label><input type="radio" name="paymentMethod" value="upi"> UPI</label>
+                        <label><input type="radio" name="paymentMethod" value="card"> Credit/Debit Card</label>
+                        <label><input type="radio" name="paymentMethod" value="netbanking"> Net Banking</label>
+                        <label><input type="radio" name="paymentMethod" value="cod"> Cash on Delivery</label>
+                    </div>
+                    <div class="payment-actions">
+                        <button type="submit" class="btn btn-primary">Confirm Payment</button>
+                        <button type="button" class="btn btn-cancel" id="cancelPayment">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay for mobile -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="copyright">
+            © 2025 KrishiSetu. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Toggle Navigation Menu
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        const overlay = document.getElementById('overlay');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        // Close navigation when clicking outside
+        overlay.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        // User Profile Menu Toggle
+        const userAvatar = document.getElementById('userAvatar');
+        const userMenu = document.getElementById('userMenu');
+
+        userAvatar.addEventListener('click', () => {
+            userMenu.classList.toggle('active');
+        });
+
+        // Close user menu when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!userAvatar.contains(event.target) && !userMenu.contains(event.target)) {
+                userMenu.classList.remove('active');
+            }
+        });
+
+        // Modal handling
+        const addCropBtn = document.getElementById('addCropBtn');
+        const addCropModal = document.getElementById('addCropModal');
+        const closeAddCrop = document.getElementById('closeAddCrop');
+        const viewReportsBtn = document.getElementById('viewReportsBtn');
+        const reportsModal = document.getElementById('reportsModal');
+        const closeReports = document.getElementById('closeReports');
+        const browseResourcesLink = document.getElementById('browseResources');
+        const buyResourcesModal = document.getElementById('buyResourcesModal');
+        const closeBuyResources = document.getElementById('closeBuyResources');
+        const paymentModal = document.getElementById('paymentModal');
+        const closePayment = document.getElementById('closePayment');
+        const cancelPayment = document.getElementById('cancelPayment');
+
+        function openModal(modal) {
+            modal.classList.add('active');
+            overlay.classList.add('active');
+        }
+
+        function closeModal(modal) {
+            modal.classList.remove('active');
+            if (!addCropModal.classList.contains('active') &&
+                !reportsModal.classList.contains('active') &&
+                !buyResourcesModal.classList.contains('active') &&
+                !paymentModal.classList.contains('active')) {
+                overlay.classList.remove('active');
+            }
+        }
+
+        addCropBtn.addEventListener('click', () => openModal(addCropModal));
+        closeAddCrop.addEventListener('click', () => closeModal(addCropModal));
+        viewReportsBtn.addEventListener('click', () => openModal(reportsModal));
+        closeReports.addEventListener('click', () => closeModal(reportsModal));
+        browseResourcesLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal(buyResourcesModal);
+            renderResourcesTable();
+            populateProductDropdown();
+        });
+        closeBuyResources.addEventListener('click', () => closeModal(buyResourcesModal));
+        closePayment.addEventListener('click', () => closeModal(paymentModal));
+        cancelPayment.addEventListener('click', () => {
+            closeModal(paymentModal);
+            closeModal(buyResourcesModal);
+        });
+
+        // Add Crop Form Submission
+        const addCropForm = document.getElementById('addCropForm');
+        const cropList = document.getElementById('cropList');
+        const cropCount = document.getElementById('cropCount');
+
+        addCropForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const cropName = document.getElementById('cropName').value;
+            const quantity = document.getElementById('quantity').value;
+            const price = document.getElementById('price').value;
+            const status = document.getElementById('status').value;
+
+            const cropItem = document.createElement('div');
+            cropItem.className = 'crop-item';
+            cropItem.innerHTML = `
+                <div class="crop-info">
+                    <div class="crop-name">${cropName}</div>
+                    <div class="crop-details">${quantity} quintals • ₹${price}/quintal</div>
+                </div>
+                <div class="crop-status status-${status}">${status === 'active' ? 'Listed' : 'Pending'}</div>
+            `;
+
+            cropList.insertBefore(cropItem, cropList.firstChild);
+            
+            // Update crop count
+            const currentCount = parseInt(cropCount.textContent.split(' ')[0]) + 1;
+            cropCount.textContent = `${currentCount} active listings`;
+
+            showNotification('Crop added successfully!', 'success');
+            closeModal(addCropModal);
+            addCropForm.reset();
+        });
+
+        // Download Report
+        const downloadReportBtn = document.getElementById('downloadReport');
+        downloadReportBtn.addEventListener('click', () => {
+            showNotification('Report downloaded successfully!', 'success');
+            closeModal(reportsModal);
+        });
+
+        // Buyer Request Actions
+        function initializeRequestButtons() {
+            const acceptButtons = document.querySelectorAll('.btn-accept');
+            const rejectButtons = document.querySelectorAll('.btn-reject');
+
+            acceptButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const requestItem = this.closest('.request-item');
+                    requestItem.style.backgroundColor = '#e8f5e9';
+                    this.textContent = 'Accepted';
+                    this.disabled = true;
+                    this.nextElementSibling.disabled = true;
+                    showNotification('Request accepted successfully!', 'success');
+                });
+            });
+
+            rejectButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const requestItem = this.closest('.request-item');
+                    requestItem.style.backgroundColor = '#ffebee';
+                    this.textContent = 'Rejected';
+                    this.disabled = true;
+                    this.previousElementSibling.disabled = true;
+                    showNotification('Request rejected', 'info');
+                });
+            });
+        }
+
+        initializeRequestButtons();
+
+        // Buy Resources and Payment Handling
+        const buyResourcesForm = document.getElementById('buyResourcesForm');
+        const resourcesTableBody = document.getElementById('resourcesTableBody');
+        const resourceProductSelect = document.getElementById('resourceProduct');
+        const resourceQuantityInput = document.getElementById('resourceQuantity');
+        const paymentForm = document.getElementById('paymentForm');
+        const orderSummaryBody = document.getElementById('orderSummaryBody');
+
+        // Simulated product data from seller1.html
+        let products = [
+            { id: 1, name: 'Organic Fertilizer', category: 'Fertilizers', price: 850, unit: 'bag', stock: 45 },
+            { id: 2, name: 'Neem Pesticide', category: 'Pesticides', price: 450, unit: 'liter', stock: 5 },
+            { id: 3, name: 'High-Yield Wheat Seeds', category: 'Seeds', price: 1200, unit: 'kg', stock: 120 },
+            { id: 4, name: 'Drip Irrigation Kit', category: 'Equipment', price: 3500, unit: 'set', stock: 0 },
+            { id: 5, name: 'Soil Testing Kit', category: 'Tools', price: 1800, unit: 'kit', stock: 25 },
+            { id: 6, name: 'Organic Compost', category: 'Fertilizers', price: 600, unit: 'bag', stock: 60 },
+            { id: 7, name: 'Bio Pesticide', category: 'Pesticides', price: 500, unit: 'liter', stock: 8 },
+            { id: 8, name: 'Hybrid Corn Seeds', category: 'Seeds', price: 1500, unit: 'kg', stock: 100 },
+            { id: 9, name: 'Sprinkler System', category: 'Equipment', price: 4000, unit: 'set', stock: 0 }
+        ];
+
+        function renderResourcesTable() {
+            resourcesTableBody.innerHTML = '';
+            products.forEach(product => {
+                const stockStatus = product.stock > 10 ? 'stock-available' : product.stock > 0 ? 'stock-low' : 'stock-out';
+                const stockText = product.stock > 0 ? `In Stock (${product.stock})` : 'Out of Stock';
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${product.name}</td>
+                    <td>₹${product.price}/${product.unit}</td>
+                    <td>${product.category}</td>
+                    <td><span class="${stockStatus}">${stockText}</span></td>
+                `;
+                resourcesTableBody.appendChild(row);
+            });
+        }
+
+        function populateProductDropdown() {
+            resourceProductSelect.innerHTML = '<option value="">Select Product</option>';
+            products.forEach(product => {
+                if (product.stock > 0) {
+                    const option = document.createElement('option');
+                    option.value = product.id;
+                    option.textContent = `${product.name} (₹${product.price}/${product.unit}, ${product.stock} available)`;
+                    resourceProductSelect.appendChild(option);
+                }
+            });
+        }
+
+        function renderOrderSummary(product, quantity) {
+            const total = product.price * quantity;
+            orderSummaryBody.innerHTML = `
+                <tr>
+                    <td>${product.name}</td>
+                    <td>${quantity} ${product.unit}${quantity > 1 ? 's' : ''}</td>
+                    <td>₹${product.price}/${product.unit}</td>
+                    <td>₹${total}</td>
+                </tr>
+            `;
+        }
+
+        let pendingOrder = null;
+
+        buyResourcesForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const productId = parseInt(resourceProductSelect.value);
+            const quantity = parseInt(resourceQuantityInput.value);
+
+            if (!productId) {
+                showNotification('Please select a product.', 'error');
+                return;
+            }
+
+            const product = products.find(p => p.id === productId);
+            if (!product) {
+                showNotification('Selected product not found.', 'error');
+                return;
+            }
+
+            if (quantity <= 0) {
+                showNotification('Quantity must be greater than 0.', 'error');
+                return;
+            }
+
+            if (quantity > product.stock) {
+                showNotification(`Cannot order ${quantity} ${product.unit}s. Only ${product.stock} available.`, 'error');
+                return;
+            }
+
+            // Store order details and open payment modal
+            pendingOrder = { product, quantity };
+            renderOrderSummary(product, quantity);
+            openModal(paymentModal);
+            buyResourcesForm.reset();
+        });
+
+        paymentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+
+            if (!paymentMethod) {
+                showNotification('Please select a payment method.', 'error');
+                return;
+            }
+
+            if (!pendingOrder) {
+                showNotification('No pending order found.', 'error');
+                closeModal(paymentModal);
+                closeModal(buyResourcesModal);
+                return;
+            }
+
+            const { product, quantity } = pendingOrder;
+            // Update stock
+            product.stock -= quantity;
+            showNotification(`Order placed for ${quantity} ${product.unit}s of ${product.name}!`, 'success');
+
+            // Refresh UI
+            renderResourcesTable();
+            populateProductDropdown();
+            pendingOrder = null;
+            closeModal(paymentModal);
+            closeModal(buyResourcesModal);
+            paymentForm.reset();
+        });
+
+        // Simple notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <span class="notification-message">${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Add notification styles dynamically
+        const notificationStyles = document.createElement('style');
+        notificationStyles.textContent = `
+            .notification {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                max-width: 350px;
+                background-color: white;
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+                padding: 15px 20px;
+                transform: translateX(120%);
+                transition: transform 0.3s ease;
+                z-index: 9999;
+            }
+            
+            .notification.show {
+                transform: translateX(0);
+            }
+            
+            .notification-success {
+                border-left: 4px solid var(--primary-color);
+            }
+            
+            .notification-info {
+                border-left: 4px solid var(--info-color);
+            }
+            
+            .notification-warning {
+                border-left: 4px solid var(--warning-color);
+            }
+            
+            .notification-error {
+                border-left: 4px solid var(--danger-color);
+            }
+        `;
+        document.head.appendChild(notificationStyles);
+
+        // Weather API Integration
+        let isFetchingWeather = false; // Prevent multiple simultaneous fetches
+
+        // Load cached weather data if available
+        function loadCachedWeather() {
+            const cachedData = localStorage.getItem('weatherData');
+            if (cachedData) {
+                const data = JSON.parse(cachedData);
+                document.getElementById('weatherTemp').textContent = `${Math.round(data.main.temp)}°C`;
+                document.getElementById('weatherDescription').textContent = `${data.weather[0].description.charAt(0).toUpperCase() + data.weather[0].description.slice(1)} in Delhi (cached)`;
+                document.getElementById('weatherHumidity').textContent = `${data.main.humidity}%`;
+                document.getElementById('weatherWind').textContent = `${Math.round(data.wind.speed * 3.6)} km/h`;
+                document.getElementById('weatherRain').textContent = data.clouds.all ? `${data.clouds.all}%` : '0%';
+                document.getElementById('weatherUpdateTime').textContent = 'Using cached data';
+
+                const weatherCode = data.weather[0].id;
+                let icon = '⛅';
+                if (weatherCode >= 200 && weatherCode < 300) icon = '⛈️';
+                else if (weatherCode >= 300 && weatherCode < 600) icon = '🌧️';
+                else if (weatherCode >= 600 && weatherCode < 700) icon = '❄️';
+                else if (weatherCode >= 700 && weatherCode < 800) icon = '🌫️';
+                else if (weatherCode === 800) icon = '☀️';
+                document.getElementById('weatherIcon').textContent = icon;
+            }
+        }
+
+        async function fetchWeatherData() {
+            if (isFetchingWeather) return; // Prevent concurrent fetches
+            isFetchingWeather = true;
+
+            // Replace with your OpenWeatherMap API key
+            const apiKey = '55b6e09fbf93c779bbaafaee4e36ac6e';
+
+            // Check if API key is set
+            if (!apiKey || apiKey === 'YOUR_OPENWEATHERMAP_API_KEY') {
+                console.error('Weather API Error: Invalid or missing API key.');
+                showNotification('Weather API key missing. Please configure it in the code.', 'error');
+                document.getElementById('weatherDescription').textContent = 'Weather API not configured';
+                document.getElementById('weatherUpdateTime').textContent = 'Update failed';
+                loadCachedWeather();
+                isFetchingWeather = false;
+                return;
+            }
+
+            const lat = 28.6139; // Delhi coordinates
+            const lon = 77.2090;
+            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                const data = await response.json();
+
+                // Store successful data in localStorage
+                localStorage.setItem('weatherData', JSON.stringify(data));
+
+                // Update DOM with weather data
+                document.getElementById('weatherTemp').textContent = `${Math.round(data.main.temp)}°C`;
+                document.getElementById('weatherDescription').textContent = `${data.weather[0].description.charAt(0).toUpperCase() + data.weather[0].description.slice(1)} in Delhi`;
+                document.getElementById('weatherHumidity').textContent = `${data.main.humidity}%`;
+                document.getElementById('weatherWind').textContent = `${Math.round(data.wind.speed * 3.6)} km/h`;
+                document.getElementById('weatherRain').textContent = data.clouds.all ? `${data.clouds.all}%` : '0%';
+                document.getElementById('weatherUpdateTime').textContent = 'Updated just now';
+
+                // Update weather icon
+                const weatherCode = data.weather[0].id;
+                let icon = '⛅';
+                if (weatherCode >= 200 && weatherCode < 300) icon = '⛈️';
+                else if (weatherCode >= 300 && weatherCode < 600) icon = '🌧️';
+                else if (weatherCode >= 600 && weatherCode < 700) icon = '❄️';
+                else if (weatherCode >= 700 && weatherCode < 800) icon = '🌫️';
+                else if (weatherCode === 800) icon = '☀️';
+                document.getElementById('weatherIcon').textContent = icon;
+
+                showNotification('Weather data updated successfully!', 'success');
+
+                // Update timestamp
+                setTimeout(() => {
+                    document.getElementById('weatherUpdateTime').textContent = 'Updated 1 minute ago';
+                }, 60000);
+            } catch (error) {
+                console.error(`Weather API Error: ${error.message}`);
+                let errorMessage = 'Failed to load weather data';
+                if (error.message.includes('401')) {
+                    errorMessage = 'Invalid API key or not yet activated.';
+                } else if (error.message.includes('429')) {
+                    errorMessage = 'API rate limit exceeded.';
+                } else if (error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
+                    errorMessage = 'Network error. Please check your connection or serve via a local server.';
+                }
+
+                document.getElementById('weatherDescription').textContent = errorMessage;
+                document.getElementById('weatherUpdateTime').textContent = 'Update failed';
+                showNotification(errorMessage, 'error');
+                loadCachedWeather();
+            } finally {
+                isFetchingWeather = false;
+            }
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCachedWeather();
+            fetchWeatherData();
+            setInterval(fetchWeatherData, 300000); // Refresh every 5 minutes
+        });
+
+        // Simulate new buyer requests
+        function simulateIncomingRequest() {
+            const buyers = ['Haryana Trading Co.', 'Punjab Wholesalers', 'UP Agro Industries'];
+            const crops = ['Basmati Rice', 'Wheat', 'Pulses', 'Cotton'];
+            const prices = ['2,600', '2,150', '5,200', '6,400'];
+            
+            const randomBuyer = buyers[Math.floor(Math.random() * buyers.length)];
+            const randomCropIndex = Math.floor(Math.random() * crops.length);
+            const randomCrop = crops[randomCropIndex];
+            const randomPrice = prices[randomCropIndex];
+            const randomQuantity = Math.floor(Math.random() * 20) + 5;
+            
+            setTimeout(() => {
+                showNotification(`New buyer request from ${randomBuyer}!`, 'info');
+                
+                const requestList = document.getElementById('requestList');
+                const newRequest = document.createElement('div');
+                newRequest.className = 'request-item';
+                newRequest.innerHTML = `
+                    <div class="request-info">
+                        <div class="request-buyer">${randomBuyer}</div>
+                        <div class="request-details">${randomQuantity} quintals of ${randomCrop} at ₹${randomPrice}/quintal</div>
+                    </div>
+                    <div class="request-actions">
+                        <button class="btn-accept">Accept</button>
+                        <button class="btn-reject">Reject</button>
+                    </div>
+                `;
+                
+                requestList.insertBefore(newRequest, requestList.firstChild);
+                
+                const requestCounter = document.getElementById('requestCount');
+                const currentCount = parseInt(requestCounter.textContent.split(' ')[0]) + 1;
+                requestCounter.textContent = `${currentCount} new requests`;
+
+                initializeRequestButtons();
+            }, Math.random() * 120000 + 60000);
+        }
+
+        setTimeout(simulateIncomingRequest, 30000);
+    </script>
+</body>
+</html>

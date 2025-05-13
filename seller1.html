@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KrishiSetu - Seller Dashboard</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #388E3C;
+            --accent-color: #FFC107;
+            --text-color: #333;
+            --light-color: #f9f9f9;
+            --dark-color: #212121;
+            --danger-color: #f44336;
+            --success-color: #8BC34A;
+            --warning-color: #FF9800;
+            --info-color: #2196F3;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 35px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            color: var(--primary-color);
+            font-size: 36px;  
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-actions .user-profile {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .user-profile img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 8px;
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+            min-width: 180px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .user-dropdown a {
+            display: block;
+            padding: 8px 15px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .user-dropdown a:hover {
+            background-color: #f5f5f5;
+            color: var(--primary-color);
+        }
+
+        .user-profile:hover .user-dropdown {
+            display: block;
+        }
+
+        .notification-bell {
+            position: relative;
+            font-size: 1.2rem;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            background-color: var(--danger-color);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 30px 0;
+            min-height: calc(100vh - 80px - 180px); /* Adjust for header and footer */
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            width: 100%;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-title {
+            font-size: 1.8rem;
+            color: var(--text-color);
+        }
+
+        .dashboard-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* Products Table */
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .products-table th, .products-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .products-table th {
+            background-color: #f5f5f5;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .products-table tr:hover {
+            background-color: rgba(76, 175, 80, 0.05);
+        }
+
+        .product-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        .product-name {
+            font-weight: 500;
+        }
+
+        .product-category {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .product-price {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .product-stock {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stock-available {
+            background-color: rgba(139, 195, 74, 0.2);
+            color: var(--success-color);
+        }
+
+        .stock-low {
+            background-color: rgba(255, 152, 0, 0.2);
+            color: var(--warning-color);
+        }
+
+        .stock-out {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: var(--danger-color);
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-edit {
+            background-color: rgba(33, 150, 243, 0.1);
+            color: var(--info-color);
+        }
+
+        .btn-edit:hover {
+            background-color: var(--info-color);
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--danger-color);
+        }
+
+        .btn-delete:hover {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 5px;
+        }
+
+        .pagination-item {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .pagination-item.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .pagination-item:hover:not(.active) {
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+
+        .pagination-item.hidden {
+            display: none;
+        }
+
+        /* Recent Orders */
+        .recent-orders {
+            margin-top: 40px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--text-color);
+        }
+
+        .view-all {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .view-all:hover {
+            color: var(--secondary-color);
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .order-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(76, 175, 80, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-right: 15px;
+        }
+
+        .order-details {
+            flex: 1;
+        }
+
+        .order-id {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .order-info {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .order-date {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .order-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 15px;
+        }
+
+        .status-completed {
+            background-color: rgba(139, 195, 74, 0.2);
+            color: var(--success-color);
+        }
+
+        .status-pending {
+            background-color: rgba(255, 152, 0, 0.2);
+            color: var(--warning-color);
+        }
+
+        .status-cancelled {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: var(--danger-color);
+        }
+
+        /* Add/Edit Product Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            overflow: auto;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 95%;
+            max-width: 600px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: modalOpen 0.4s ease-out;
+        }
+
+        @keyframes modalOpen {
+            from {
+                opacity: 0;
+                transform: translateY(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 22px;
+            color: #777;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--dark-color);
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+            font-size: 1.6rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .file-upload {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 2px dashed #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary-color);
+        }
+
+        .file-upload input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-icon {
+            font-size: 2rem;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .form-button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                flex-direction: column;
+                background-color: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+                padding: 20px 0;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links a {
+                margin: 15px 0;
+            }
+
+            .user-actions {
+                margin-left: auto;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .products-table th:nth-child(3),
+            .products-table td:nth-child(3) {
+                display: none;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo h1 {
+                font-size: 20px;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .products-table th:nth-child(4),
+            .products-table td:nth-child(4) {
+                display: none;
+            }
+
+            .order-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .order-icon {
+                margin-bottom: 10px;
+            }
+
+            .order-status {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Font awesome icons */
+        .fa {
+            font-family: Arial, sans-serif;
+            display: inline-block;
+            font-style: normal;
+            font-variant: normal;
+            text-rendering: auto;
+            line-height: 1;
+        }
+
+        .fa-dashboard:before { content: "📊"; }
+        .fa-box:before { content: "📦"; }
+        .fa-shopping-cart:before { content: "🛒"; }
+        .fa-chart-bar:before { content: "📈"; }
+        .fa-users:before { content: "👥"; }
+        .fa-cog:before { content: "⚙️"; }
+        .fa-sign-out:before { content: "🚪"; }
+        .fa-plus:before { content: "➕"; }
+        .fa-download:before { content: "⬇️"; }
+        .fa-user:before { content: "👤"; }
+        .fa-edit:before { content: "✏️"; }
+        .fa-trash:before { content: "🗑️"; }
+        .fa-upload:before { content: "⬆️"; }
+        .fa-money-bill:before { content: "💵"; }
+        .fa-percent:before { content: "%"; }
+        .fa-calendar:before { content: "📅"; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <img src="images/logo.jpg" alt="KrishiSetu Logo">
+                    <h1>KrishiSetu</h1>
+                </div>
+                
+                <button class="hamburger" id="hamburger">☰</button>
+                
+                <div class="nav-links" id="navLinks">
+                    <a href="home.html">Home</a>
+                   
+                </div>
+
+                <div class="user-actions">
+                    <div class="user-profile">
+                        <img src="/api/placeholder/40/40" alt="User Profile">
+                        <div class="user-dropdown">
+                            <a href="seller_profile.html"><span class="fa fa-user"></span> Profile</a>
+                            <a href="logout.html"><span class="fa fa-sign-out"></span> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <div class="dashboard-header">
+                    <h2 class="dashboard-title">Seller Dashboard</h2>
+                    <div class="dashboard-actions">
+                        <button class="btn btn-outline" id="exportBtn">
+                            <i class="fa fa-download"></i> Export Data
+                        </button>
+                        <button class="btn btn-primary" id="addProductBtn">
+                            <i class="fa fa-plus"></i> Add Product
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <span class="fa fa-money-bill"></span>
+                        </div>
+                        <div class="stat-value">₹24,500</div>
+                        <div class="stat-label">Revenue (Monthly)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <span class="fa fa-shopping-cart"></span>
+                        </div>
+                        <div class="stat-value">36</div>
+                        <div class="stat-label">Orders (Monthly)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <span class="fa fa-box"></span>
+                        </div>
+                        <div class="stat-value">18</div>
+                        <div class="stat-label">Products</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <span class="fa fa-percent"></span>
+                        </div>
+                        <div class="stat-value">89%</div>
+                        <div class="stat-label">Customer Satisfaction</div>
+                    </div>
+                </div>
+
+                <!-- Products List -->
+                <div class="products-list">
+                    <div class="section-header">
+                        <h3 class="section-title">Products</h3>
+                        <a href="#" class="view-all">View All</a>
+                    </div>
+
+                    <table class="products-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsBody">
+                            <tr class="product-row" data-page="1">
+                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
+                                <td>
+                                    <div class="product-name">Organic Fertilizer</div>
+                                    <div class="product-category">Fertilizers</div>
+                                </td>
+                                <td>Fertilizers</td>
+                                <td class="product-price">₹850/bag</td>
+                                <td><span class="product-stock stock-available">In Stock (45)</span></td>
+                                <td>
+                                    <div class="product-actions">
+                                        <button class="action-btn btn-edit" data-row-index="0"><span class="fa fa-edit"></span></button>
+                                        <button class="action-btn btn-delete"><span class="fa fa-trash"></span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="product-row" data-page="1">
+                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
+                                <td>
+                                    <div class="product-name">Neem Pesticide</div>
+                                    <div class="product-category">Pesticides</div>
+                                </td>
+                                <td>Pesticides</td>
+                                <td class="product-price">₹450/liter</td>
+                                <td><span class="product-stock stock-low">Low Stock (5)</span></td>
+                                <td>
+                                    <div class="product-actions">
+                                        <button class="action-btn btn-edit" data-row-index="1"><span class="fa fa-edit"></span></button>
+                                        <button class="action-btn btn-delete"><span class="fa fa-trash"></span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="product-row" data-page="1">
+                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
+                                <td>
+                                    <div class="product-name">High-Yield Wheat Seeds</div>
+                                    <div class="product-category">Seeds</div>
+                                </td>
+                                <td>Seeds</td>
+                                <td class="product-price">₹1200/kg</td>
+                                <td><span class="product-stock stock-available">In Stock (120)</span></td>
+                                <td>
+                                    <div class="product-actions">
+                                        <button class="action-btn btn-edit" data-row-index="2"><span class="fa fa-edit"></span></button>
+                                        <button class="action-btn btn-delete"><span class="fa fa-trash"></span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="product-row" data-page="2">
+                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
+                                <td>
+                                    <div class="product-name">Drip Irrigation Kit</div>
+                                    <div class="product-category">Equipment</div>
+                                </td>
+                                <td>Equipment</td>
+                                <td class="product-price">₹3500/set</td>
+                                <td><span class="product-stock stock-out">Out of Stock</span></td>
+                                <td>
+                                    <div class="product-actions">
+                                        <button class="action-btn btn-edit" data-row-index="3"><span class="fa fa-edit"></span></button>
+                                        <button class="action-btn btn-delete"><span class="fa fa-trash"></span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="product-row" data-page="2">
+                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
+                                <td>
+                                    <div class="product-name">Soil Testing Kit</div>
+                                    <div class="product-category">Tools</div>
+                                </td>
+                                <td>Tools</td>
+                                <td class="product-price">₹1800/kit</td>
+                                <td><span class="product-stock stock-available">In Stock (25)</span></td>
+                                <td>
+                                    <div class="product-actions">
+                                        <button class="action-btn btn-edit" data-row-index="4"><span class="fa fa-edit"></span></button>
+                                        <button class="action-btn btn-delete"><span class="fa fa-trash"></span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="product-row" data-page="2">
+                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
+                                <td>
+                                    <div class="product-name">Organic Compost</div>
+                                    <div class="product-category">Fertilizers</div>
+                                </td>
+                                <td>Fertilizers</td>
+                                <td class="product-price">₹600/bag</td>
+                                <td><span class="product-stock stock-available">In Stock (60)</span></td>
+                                <td>
+                                    <div class="product-actions">
+                                        <button class="action-btn btn-edit" data-row-index="5"><span class="fa fa-edit"></span></button>
+                                        <button class="action-btn btn-delete"><span class="fa fa-trash"></span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="product-row" data-page="3">
+                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
+                                <td>
+                                    <div class="product-name">Bio Pesticide</div>
+                                    <div class="product-category">Pesticides</div>
+                                </td>
+                                <td>Pesticides</td>
+                                <td class="product-price">₹500/liter</td>
+                                <td><span class="product-stock stock-low">Low Stock (8)</span></td>
+                                <td>
+                                    <div class="product-actions">
+                                        <button class="action-btn btn-edit" data-row-index="6"><span class="fa fa-edit"></span></button>
+                                        <button class="action-btn btn-delete"><span class="fa fa-trash"></span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="product-row" data-page="3">
+                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
+                                <td>
+                                    <div class="product-name">Hybrid Corn Seeds</div>
+                                    <div class="product-category">Seeds</div>
+                                </td>
+                                <td>Seeds</td>
+                                <td class="product-price">₹1500/kg</td>
+                                <td><span class="product-stock stock-available">In Stock (100)</span></td>
+                                <td>
+                                    <div class="product-actions">
+                                        <button class="action-btn btn-edit" data-row-index="7"><span class="fa fa-edit"></span></button>
+                                        <button class="action-btn btn-delete"><span class="fa fa-trash"></span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="product-row" data-page="3">
+                                <td><img src="/api/placeholder/50/50" alt="Product" class="product-image"></td>
+                                <td>
+                                    <div class="product-name">Sprinkler System</div>
+                                    <div class="product-category">Equipment</div>
+                                </td>
+                                <td>Equipment</td>
+                                <td class="product-price">₹4000/set</td>
+                                <td><span class="product-stock stock-out">Out of Stock</span></td>
+                                <td>
+                                    <div class="product-actions">
+                                        <button class="action-btn btn-edit" data-row-index="8"><span class="fa fa-edit"></span></button>
+                                        <button class="action-btn btn-delete"><span class="fa fa-trash"></span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Pagination -->
+                    <div class="pagination" id="pagination">
+                        <div class="pagination-item active" data-page="1">1</div>
+                        <div class="pagination-item" data-page="2">2</div>
+                        <div class="pagination-item" data-page="3">3</div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders -->
+                <div class="recent-orders">
+                    <div class="section-header">
+                        <h3 class="section-title">Recent Orders</h3>
+                        <a href="#" class="view-all">View All</a>
+                    </div>
+
+                    <div class="order-item">
+                        <div class="order-icon">
+                            <span class="fa fa-shopping-cart"></span>
+                        </div>
+                        <div class="order-details">
+                            <div class="order-id">Order #KS2025051</div>
+                            <div class="order-info">Rakesh Patel - 3 items</div>
+                        </div>
+                        <div class="order-date">2 hours ago</div>
+                        <div class="order-status status-pending">Processing</div>
+                    </div>
+
+                    <div class="order-item">
+                        <div class="order-icon">
+                            <span class="fa fa-shopping-cart"></span>
+                        </div>
+                        <div class="order-details">
+                            <div class="order-id">Order #KS2025047</div>
+                            <div class="order-info">Sunil Kumar - 1 item</div>
+                        </div>
+                        <div class="order-date">Yesterday</div>
+                        <div class="order-status status-completed">Delivered</div>
+                    </div>
+
+                    <div class="order-item">
+                        <div class="order-icon">
+                            <span class="fa fa-shopping-cart"></span>
+                        </div>
+                        <div class="order-details">
+                            <div class="order-id">Order #KS2025045</div>
+                            <div class="order-info">Priya Singh - 5 items</div>
+                        </div>
+                        <div class="order-date">2 days ago</div>
+                        <div class="order-status status-completed">Delivered</div>
+                    </div>
+
+                    <div class="order-item">
+                        <div class="order-icon">
+                            <span class="fa fa-shopping-cart"></span>
+                        </div>
+                        <div class="order-details">
+                            <div class="order-id">Order #KS2025039</div>
+                            <div class="order-info">Anand Verma - 2 items</div>
+                        </div>
+                        <div class="order-date">3 days ago</div>
+                        <div class="order-status status-cancelled">Cancelled</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeModal">×</button>
+            <h2 class="form-title" id="modalTitle">Add New Product</h2>
+            <form id="productForm">
+                <input type="hidden" id="editRowIndex">
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input type="text" id="productName" class="form-control" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productCategory">Category</label>
+                        <select id="productCategory" class="form-control" required>
+                            <option value="">Select Category</option>
+                            <option value="fertilizers">Fertilizers</option>
+                            <option value="pesticides">Pesticides</option>
+                            <option value="seeds">Seeds</option>
+                            <option value="equipment">Equipment</option>
+                            <option value="tools">Tools</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">Price (₹)</label>
+                        <input type="number" id="productPrice" class="form-control" min="0" step="0.01" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productQuantity">Quantity</label>
+                        <input type="number" id="productQuantity" class="form-control" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productUnit">Unit</label>
+                        <select id="productUnit" class="form-control" required>
+                            <option value="">Select Unit</option>
+                            <option value="kg">Kg</option>
+                            <option value="liter">Liter</option>
+                            <option value="bag">Bag</option>
+                            <option value="set">Set</option>
+                            <option value="piece">Piece</option>
+                            <option value="kit">Kit</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="productDescription">Description</label>
+                    <textarea id="productDescription" class="form-control" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Product Image</label>
+                    <div class="file-upload">
+                        <div class="upload-icon"><span class="fa fa-upload"></span></div>
+                        <div class="upload-text">Click to upload image or drag and drop</div>
+                        <input type="file" id="productImage" accept="image/*">
+                    </div>
+                </div>
+                <button type="submit" class="form-button" id="formSubmitBtn">Add Product</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="copyright">
+            © 2025 KrishiSetu. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Modal Functions
+        const modal = document.getElementById('productModal');
+        const addProductBtn = document.getElementById('addProductBtn');
+        const closeModal = document.getElementById('closeModal');
+        const productForm = document.getElementById('productForm');
+        const modalTitle = document.getElementById('modalTitle');
+        const formSubmitBtn = document.getElementById('formSubmitBtn');
+        
+        addProductBtn.addEventListener('click', () => {
+            modal.style.display = 'flex';
+            modalTitle.textContent = 'Add New Product';
+            formSubmitBtn.textContent = 'Add Product';
+            productForm.reset();
+            document.getElementById('editRowIndex').value = '';
+        });
+        
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Product Form Submission
+        productForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const editRowIndex = document.getElementById('editRowIndex').value;
+            const productName = document.getElementById('productName').value;
+            const productCategory = document.getElementById('productCategory').value;
+            const productPrice = parseFloat(document.getElementById('productPrice').value);
+            const productQuantity = parseInt(document.getElementById('productQuantity').value);
+            const productUnit = document.getElementById('productUnit').value;
+            const productDescription = document.getElementById('productDescription').value;
+            const productImage = document.getElementById('productImage').files[0];
+
+            if (editRowIndex === '') {
+                // Add new product
+                const newRow = document.createElement('tr');
+                newRow.classList.add('product-row');
+                newRow.setAttribute('data-page', '1'); // Add to first page for simplicity
+                const rowIndex = document.querySelectorAll('.product-row').length;
+                newRow.innerHTML = `
+                    <td><img src="${productImage ? URL.createObjectURL(productImage) : '/api/placeholder/50/50'}" alt="Product" class="product-image"></td>
+                    <td>
+                        <div class="product-name">${productName}</div>
+                        <div class="product-category">${productCategory.charAt(0).toUpperCase() + productCategory.slice(1)}</div>
+                    </td>
+                    <td>${productCategory.charAt(0).toUpperCase() + productCategory.slice(1)}</td>
+                    <td class="product-price">₹${productPrice.toFixed(2)}/${productUnit}</td>
+                    <td><span class="product-stock ${productQuantity > 10 ? 'stock-available' : productQuantity > 0 ? 'stock-low' : 'stock-out'}">${productQuantity > 0 ? `In Stock (${productQuantity})` : 'Out of Stock'}</span></td>
+                    <td>
+                        <div class="product-actions">
+                            <button class="action-btn btn-edit" data-row-index="${rowIndex}"><span class="fa fa-edit"></span></button>
+                            <button class="action-btn btn-delete"><span class="fa fa-trash"></span></button>
+                        </div>
+                    </td>
+                `;
+                document.getElementById('productsBody').appendChild(newRow);
+                alert('Product added successfully!');
+            } else {
+                // Edit existing product
+                const row = document.querySelector(`.btn-edit[data-row-index="${editRowIndex}"]`).closest('tr');
+                row.querySelector('.product-name').textContent = productName;
+                row.querySelector('.product-category').textContent = productCategory.charAt(0).toUpperCase() + productCategory.slice(1);
+                row.querySelector('td:nth-child(3)').textContent = productCategory.charAt(0).toUpperCase() + productCategory.slice(1);
+                row.querySelector('.product-price').textContent = `₹${productPrice.toFixed(2)}/${productUnit}`;
+                const stockSpan = row.querySelector('.product-stock');
+                stockSpan.textContent = productQuantity > 0 ? `In Stock (${productQuantity})` : 'Out of Stock';
+                stockSpan.className = `product-stock ${productQuantity > 10 ? 'stock-available' : productQuantity > 0 ? 'stock-low' : 'stock-out'}`;
+                if (productImage) {
+                    row.querySelector('img').src = URL.createObjectURL(productImage);
+                }
+                alert('Product updated successfully!');
+            }
+
+            modal.style.display = 'none';
+            productForm.reset();
+            updatePagination(); // Refresh pagination after add/edit
+        });
+        
+        // Export Data Button Click
+        const exportBtn = document.getElementById('exportBtn');
+        
+        exportBtn.addEventListener('click', () => {
+            alert('Data exported successfully!');
+        });
+
+        // Handle Edit Button Click
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.btn-edit')) {
+                const btn = e.target.closest('.btn-edit');
+                const rowIndex = btn.getAttribute('data-row-index');
+                const row = btn.closest('tr');
+                const productName = row.querySelector('.product-name').textContent;
+                const productCategory = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                const priceUnit = row.querySelector('.product-price').textContent.split('/');
+                const productPrice = parseFloat(priceUnit[0].replace('₹', ''));
+                const productUnit = priceUnit[1];
+                const stockText = row.querySelector('.product-stock').textContent;
+                const productQuantity = stockText.includes('In Stock') ? parseInt(stockText.match(/\d+/)[0]) : 0;
+
+                modal.style.display = 'flex';
+                modalTitle.textContent = 'Edit Product';
+                formSubmitBtn.textContent = 'Save Changes';
+                document.getElementById('editRowIndex').value = rowIndex;
+                document.getElementById('productName').value = productName;
+                document.getElementById('productCategory').value = productCategory;
+                document.getElementById('productPrice').value = productPrice;
+                document.getElementById('productQuantity').value = productQuantity;
+                document.getElementById('productUnit').value = productUnit;
+                document.getElementById('productDescription').value = ''; // Description not stored in table, so empty
+            }
+        });
+
+        // Handle Delete Button Click
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.btn-delete')) {
+                const row = e.target.closest('tr');
+                if (confirm('Are you sure you want to delete this product?')) {
+                    row.remove();
+                    alert('Product deleted successfully!');
+                    updatePagination(); // Refresh pagination after deletion
+                }
+            }
+        });
+
+        // Pagination Logic
+        const paginationItems = document.querySelectorAll('.pagination-item');
+        const itemsPerPage = 3;
+
+        function updatePagination() {
+            const productRows = document.querySelectorAll('.product-row');
+            const totalItems = productRows.length;
+            const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
+
+            // Update visibility of pagination items
+            paginationItems.forEach((item, index) => {
+                if (index + 1 <= totalPages) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+
+            // Determine current active page
+            let activePage = parseInt(document.querySelector('.pagination-item.active')?.getAttribute('data-page') || 1);
+            if (activePage > totalPages) {
+                activePage = totalPages;
+            }
+
+            // Show the appropriate page
+            showPage(activePage);
+        }
+
+        function showPage(pageNumber) {
+            const productRows = document.querySelectorAll('.product-row');
+            const totalItems = productRows.length;
+            const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
+
+            // Ensure pageNumber is within valid range
+            pageNumber = Math.max(1, Math.min(pageNumber, totalPages));
+
+            // Update active pagination item
+            paginationItems.forEach(item => {
+                item.classList.remove('active');
+                if (parseInt(item.getAttribute('data-page')) === pageNumber) {
+                    item.classList.add('active');
+                }
+            });
+
+            // Show/hide product rows based on page
+            productRows.forEach((row, index) => {
+                const rowPage = Math.floor(index / itemsPerPage) + 1;
+                row.setAttribute('data-page', rowPage);
+                if (rowPage === pageNumber) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Add click event listeners to pagination items
+        paginationItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const pageNumber = parseInt(item.getAttribute('data-page'));
+                showPage(pageNumber);
+            });
+        });
+
+        // Initialize pagination
+        updatePagination();
+    </script>
+</body>
+</html>
