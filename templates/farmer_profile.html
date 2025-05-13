@@ -249,6 +249,19 @@
             background-color: var(--secondary-color);
         }
 
+        /* Success message */
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .hamburger {
@@ -320,6 +333,7 @@
         .fa-user:before { content: "👤"; }
         .fa-sign-out:before { content: "🚪"; }
         .fa-edit:before { content: "✏️"; }
+        .fa-check:before { content: "✓"; }
     </style>
 </head>
 <body>
@@ -328,19 +342,24 @@
         <div class="container">
             <nav>
                 <div class="logo">
-                    <img src="images/logo.jpg" alt="KrishiSetu Logo">
+                    <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="KrishiSetu Logo">
                     <h1>KrishiSetu</h1>
                 </div>
-
- </nav>
+            </nav>
         </div>
     </header>
+
 
     <!-- Main Content -->
     <div class="main-content">
         <div class="container">
             <!-- Profile Content -->
             <div class="profile-content">
+                <!-- Success Alert -->
+                <div id="successAlert" class="alert alert-success">
+                    <span class="fa fa-check"></span> Changes saved successfully!
+                </div>
+                
                 <div class="profile-header">
                     <h2 class="profile-title">Farmer Profile</h2>
                     <button class="btn btn-primary" id="editProfileBtn">
@@ -352,21 +371,17 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="fullName">Full Name</label>
-                            <input type="text" id="fullName" class="form-control" required>
+                            <input type="text" id="fullName" class="form-control" value="Rajesh Kumar" required>
                         </div>
-                        
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" class="form-control" required>
-                    </div>
+                    
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" class="form-control" required>
+                        <input type="tel" id="phone" class="form-control" value="9876543210" required>
                     </div>
                     <div class="form-group">
-                        <label for="land">Land Size(Acres)</label>
-                        <input type="number" id="land" class="form-control" required>
+                        <label for="land">Land Size (Acres)</label>
+                        <input type="number" id="land" class="form-control" value="5" required>
                     </div>
                     <button type="submit" class="form-button">Save Changes</button>
                 </form>
@@ -385,23 +400,37 @@
         // Mobile Menu Toggle
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('navLinks');
-
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
+        
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
 
         // Profile Form Submission
         const profileForm = document.getElementById('profileForm');
+        const successAlert = document.getElementById('successAlert');
 
         profileForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('Profile updated successfully!');
+            
+            // Show success message
+            successAlert.style.display = 'block';
+            
+            // Show alert
+            alert('Profile changes saved successfully!');
+            
+            // Hide the success message after 3 seconds
+            setTimeout(() => {
+                successAlert.style.display = 'none';
+            }, 3000);
         });
 
-        // Edit Profile Button (Placeholder for future functionality)
+        // Edit Profile Button
         const editProfileBtn = document.getElementById('editProfileBtn');
         editProfileBtn.addEventListener('click', () => {
-            alert('Edit profile functionality coming soon!');
+            // Focus on the first input field
+            document.getElementById('fullName').focus();
         });
     </script>
 </body>

@@ -679,6 +679,9 @@
             padding: 20px 0;
             text-align: center;
         }
+        .hero{
+             background: url("{{ url_for('static', filename='images/water.jpg') }}") no-repeat center center/cover;
+        }
 
         /* Tablets and mobile devices */
         @media (max-width: 768px) {
@@ -782,9 +785,6 @@
                 
                 <button class="hamburger" id="hamburger">☰</button>
                 
-                <div class="nav-links" id="navLinks">
-                    <a href="home.html">Home</a>
-                </div>
                 
                 <div class="user-profile">
                     <div class="user-avatar" id="userAvatar">
@@ -804,13 +804,14 @@
 
     <!-- Main Content -->
     <main>
+        <section class="hero">
         <div class="container">
             <!-- Dashboard Content -->
             <div class="dashboard-content">
                 <!-- Welcome Banner -->
                 <div class="welcome-banner">
                     <div class="welcome-text">
-                        <h2>Welcome back, John Doe!</h2>
+                        <h2>Welcome back,</h2>
                         <p>Here's what's happening with your farm today.</p>
                     </div>
                     <div class="welcome-actions">
@@ -850,7 +851,7 @@
                         </div>
                         <div class="card-footer">
                             <span id="weatherUpdateTime">Updating...</span>
-                            <a href="#">5-day forecast →</a>
+                           
                         </div>
                     </div>
 
@@ -884,7 +885,7 @@
                         </div>
                         <div class="card-footer">
                             <span>Delhi Mandi Prices</span>
-                            <a href="#">View all prices →</a>
+                            
                         </div>
                     </div>
 
@@ -921,7 +922,7 @@
                         </div>
                         <div class="card-footer">
                             <span id="cropCount">3 active listings</span>
-                            <a href="#">Manage crops →</a>
+                           
                         </div>
                     </div>
 
@@ -957,7 +958,7 @@
                         </div>
                         <div class="card-footer">
                             <span id="requestCount">2 new requests</span>
-                            <a href="#">View all requests →</a>
+                          
                         </div>
                     </div>
 
@@ -985,7 +986,8 @@
                         </div>
                         <div class="card-footer">
                             <span>+15.9% from last month</span>
-                            <a href="#">View earnings →</a>
+                          
+                
                         </div>
                     </div>
 
@@ -1133,7 +1135,7 @@
             </div>
         </div>
     </div>
-
+</section>
     <!-- Overlay for mobile -->
     <div class="overlay" id="overlay"></div>
 

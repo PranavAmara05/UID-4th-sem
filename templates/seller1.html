@@ -779,23 +779,20 @@
         <div class="container">
             <nav>
                 <div class="logo">
-                    <img src="images/logo.jpg" alt="KrishiSetu Logo">
+                    <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="KrishiSetu Logo">
                     <h1>KrishiSetu</h1>
                 </div>
                 
                 <button class="hamburger" id="hamburger">☰</button>
                 
-                <div class="nav-links" id="navLinks">
-                    <a href="home.html">Home</a>
-                   
-                </div>
+                
 
                 <div class="user-actions">
                     <div class="user-profile">
-                        <img src="/api/placeholder/40/40" alt="User Profile">
+                        <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="User Profile">
                         <div class="user-dropdown">
-                            <a href="seller_profile.html"><span class="fa fa-user"></span> Profile</a>
-                            <a href="logout.html"><span class="fa fa-sign-out"></span> Logout</a>
+                            <a href="{{ url_for('seller_profile') }}"><span class="fa fa-user"></span> Profile</a>
+                            <a href="{{ url_for('logout') }}"><span class="fa fa-sign-out"></span> Logout</a>
                         </div>
                     </div>
                 </div>
